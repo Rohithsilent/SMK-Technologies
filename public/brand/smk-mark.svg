@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 90" role="img" aria-labelledby="title">
+  <defs>
+    <linearGradient id="smk-metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F8E7B7"/>
+      <stop offset=".32" stop-color="#D6A547"/>
+      <stop offset=".57" stop-color="#FFF4D5"/>
+      <stop offset=".82" stop-color="#D6A547"/>
+      <stop offset="1" stop-color="#F3D58F"/>
+    </linearGradient>
+    <filter id="smk-depth" x="-8%" y="-12%" width="116%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="blur"/>
+      <feOffset dy="1.5" result="offset"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".24"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <title id="title">SMK</title>
+  <text x="12" y="77" fill="url(#smk-metal)" stroke="#FFF0C1" stroke-opacity=".2" stroke-width=".55" paint-order="stroke" filter="url(#smk-depth)" font-family="Georgia, 'Times New Roman', serif" font-size="82" font-weight="bold" letter-spacing="-6">SMK</text>
+</svg>
