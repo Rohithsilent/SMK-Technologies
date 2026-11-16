@@ -7,12 +7,16 @@ declare module "lucide-react" {
   export const ArrowLeft: LucideIcon
   export const ArrowRight: LucideIcon
   export const ArrowUpRight: LucideIcon
+  export const Award: LucideIcon
   export const BrainCircuit: LucideIcon
+  export const Calendar: LucideIcon
   export const Check: LucideIcon
   export const ChevronDown: LucideIcon
   export const Code2: LucideIcon
   export const HelpCircle: LucideIcon
+  export const Layers: LucideIcon
   export const Menu: LucideIcon
   export const PanelsTopLeft: LucideIcon
+  export const Terminal: LucideIcon
   export const X: LucideIcon
 }

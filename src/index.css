@@ -34,8 +34,17 @@
   --font-body: "Inter", sans-serif;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 2rem; scrollbar-color: hsl(var(--muted-foreground) / .45) hsl(var(--background)); scrollbar-width: thin; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+  scrollbar-color: hsl(var(--muted-foreground) / .45) hsl(var(--background));
+  scrollbar-width: thin;
+}
+
 body {
   min-width: 320px;
   margin: 0;
@@ -44,8 +53,18 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
-button, input, select, textarea { font: inherit; }
-::selection { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
 
 .liquid-glass {
   position: relative;
@@ -57,105 +76,1019 @@ button, input, select, textarea { font: inherit; }
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
+
 .liquid-glass::before {
   position: absolute;
   inset: 0;
   padding: 1.4px;
   border-radius: inherit;
   background: linear-gradient(180deg,
-    rgba(255,255,255,.45) 0%, rgba(255,255,255,.15) 20%,
-    rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
-    rgba(255,255,255,.15) 80%, rgba(255,255,255,.45) 100%);
+      rgba(255, 255, 255, .45) 0%, rgba(255, 255, 255, .15) 20%,
+      rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, .15) 80%, rgba(255, 255, 255, .45) 100%);
   content: "";
   pointer-events: none;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
-.liquid-glass:focus-visible { outline: 2px solid hsl(var(--foreground)); outline-offset: -3px; }
-@keyframes fade-rise {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-rise { animation: fade-rise .8s ease-out both; }
-.animate-fade-rise-delay { animation: fade-rise .8s ease-out .2s both; }
-.animate-fade-rise-delay-2 { animation: fade-rise .8s ease-out .4s both; }
 
-.hero-copy { text-shadow: 0 2px 24px rgba(0, 0, 0, .28); }
-.hero-video { background: hsl(var(--background)); }
-.hero-video::-webkit-media-controls { display: none !important; }
-.course-row { border-top: 1px solid hsl(var(--border)); }
-.course-row:last-child { border-bottom: 1px solid hsl(var(--border)); }
-.course-row { color: inherit; text-decoration: none; transition: padding .25s ease, color .25s ease; }
-.course-row:hover { padding-left: .6rem; padding-right: .6rem; }
-.course-row:focus-visible { outline: 2px solid hsl(var(--foreground)); outline-offset: 4px; }
-.learning-loop { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
-.learning-loop li { min-width: 0; border-top: 1px solid hsl(var(--border)); padding-top: 1rem; }
-.learning-loop-index { display: flex; align-items: center; justify-content: space-between; color: hsl(var(--path-accent)); font-size: .6rem; letter-spacing: .16em; }
-.learning-loop-index svg { width: 1rem; height: 1rem; color: hsl(var(--muted-foreground)); }
-.learning-loop h3, .campus-brief h3 { margin: .8rem 0 .35rem; font-family: var(--font-display); font-size: 1.65rem; font-weight: 400; line-height: 1.1; }
-.learning-loop p, .campus-brief p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.7; }
-.campus-brief { margin: 0; padding: 0; list-style: none; }
-.campus-brief li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; border-top: 1px solid hsl(var(--border)); padding: 1.15rem 0; }
-.campus-brief li > span { padding-top: .25rem; color: hsl(var(--path-accent)); font-size: .6rem; letter-spacing: .15em; }
-.campus-brief h3 { margin: 0 0 .35rem; font-size: 1.5rem; }
-.roadmap-heading { display: grid; gap: 1.5rem; }
-.roadmap-fit { display: grid; gap: 1rem; margin: 0 0 2rem; padding: 1rem 0; border-top: 1px solid hsl(var(--border)); border-bottom: 1px solid hsl(var(--border)); }
-.roadmap-fit dt { margin-bottom: .35rem; color: hsl(var(--path-accent)); font-size: .55rem; letter-spacing: .15em; text-transform: uppercase; }
-.roadmap-fit dd { margin: 0; color: hsl(var(--muted-foreground)); font-size: .78rem; line-height: 1.55; }
-.roadmap-explorer { display: grid; gap: 2rem; }
-.roadmap-sidebar-label, .roadmap-station-counter { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: hsl(var(--muted-foreground)); font-size: .58rem; letter-spacing: .16em; }
-.roadmap-sidebar-label { margin: 0 0 1rem; }
-.roadmap-sidebar-label span { letter-spacing: .1em; }
-.roadmap-track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; }
-.roadmap-stop { display: grid; min-width: 0; min-height: 4.5rem; grid-template-columns: 2rem minmax(0, 1fr); align-items: center; gap: .65rem; padding: .65rem; border: 1px solid transparent; border-radius: 1rem; background: transparent; color: hsl(var(--muted-foreground)); text-align: left; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, color .2s ease; }
-.roadmap-stop:hover { background: hsl(var(--foreground) / .04); color: hsl(var(--foreground)); }
-.roadmap-stop.is-active { border-color: hsl(var(--path-accent) / .35); background: hsl(var(--path-accent) / .07); color: hsl(var(--foreground)); }
-.roadmap-stop:focus-visible { outline: 2px solid hsl(var(--path-accent)); outline-offset: 2px; }
-.roadmap-stop-marker { display: grid; width: 1.9rem; height: 1.9rem; place-items: center; border: 1px solid hsl(var(--border)); border-radius: 50%; background: hsl(var(--background)); color: hsl(var(--muted-foreground)); font-size: .57rem; letter-spacing: .04em; }
-.roadmap-stop.is-active .roadmap-stop-marker { border-color: hsl(var(--path-accent)); color: hsl(var(--path-accent)); }
-.roadmap-stop-marker > span { width: .48rem; height: .48rem; border-radius: 50%; background: hsl(var(--path-accent)); }
-.roadmap-stop-copy { display: grid; gap: .24rem; min-width: 0; }
-.roadmap-stop-copy small { color: hsl(var(--muted-foreground)); font-size: .5rem; letter-spacing: .12em; }
-.roadmap-stop-copy strong { font-size: .72rem; font-weight: 500; line-height: 1.35; }
-.roadmap-sidebar-note { margin: 1rem .25rem 0; color: hsl(var(--muted-foreground)); font-size: .68rem; line-height: 1.6; }
-.roadmap-station { min-width: 0; border-top: 1px solid hsl(var(--border)); padding-top: 1.5rem; }
-.roadmap-station-counter { margin-bottom: 1rem; }
-.roadmap-station-counter span:last-child { color: hsl(var(--foreground)); font-variant-numeric: tabular-nums; }
-.roadmap-station-counter i { padding: 0 .35rem; color: hsl(var(--muted-foreground)); font-style: normal; }
-.roadmap-station-kicker { margin: 0 0 .75rem; color: hsl(var(--path-accent)); font-size: .58rem; letter-spacing: .16em; }
-.roadmap-work { display: grid; gap: .85rem; margin: 1.25rem 0; padding: 1.1rem 0; border-top: 1px solid hsl(var(--border)); border-bottom: 1px solid hsl(var(--border)); }
-.roadmap-work-item { border-left: 1px solid hsl(var(--border)); padding-left: 1rem; }
-.roadmap-work-item > span { color: hsl(var(--muted-foreground)); font-size: .55rem; letter-spacing: .14em; }
-.roadmap-work-item p { margin: .4rem 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.55; }
-.roadmap-work-outcome { border-color: hsl(var(--path-accent) / .6); }
-.roadmap-work-outcome p { color: hsl(var(--foreground) / .9); }
-.checkpoint { border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background) / .65); padding: 1.25rem; }
-.checkpoint-heading { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.15rem; }
-.checkpoint-icon { display: grid; width: 2.25rem; height: 2.25rem; flex: none; place-items: center; border: 1px solid hsl(var(--path-accent) / .45); border-radius: 50%; color: hsl(var(--path-accent)); }
-.checkpoint-icon svg { width: 1rem; height: 1rem; }
-.checkpoint-eyebrow { margin: 0 0 .25rem; color: hsl(var(--muted-foreground)); font-size: .52rem; letter-spacing: .15em; }
-.checkpoint-heading h4 { margin: 0; font-family: var(--font-display); font-size: 1.45rem; font-weight: 400; }
-.checkpoint-time { margin-left: auto; color: hsl(var(--muted-foreground)); font-size: .52rem; letter-spacing: .12em; }
-.checkpoint-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
-.checkpoint-fieldset legend { margin-bottom: .9rem; font-size: .84rem; font-weight: 500; line-height: 1.55; }
-.checkpoint-options { display: grid; gap: .5rem; }
-.checkpoint-option { position: relative; display: flex; min-height: 2.8rem; align-items: center; gap: .75rem; border: 1px solid hsl(var(--border)); border-radius: .8rem; padding: .65rem .8rem; color: hsl(var(--muted-foreground)); font-size: .73rem; line-height: 1.5; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, color .2s ease; }
-.checkpoint-option:hover { border-color: hsl(var(--foreground) / .4); color: hsl(var(--foreground)); }
-.checkpoint-option:has(input:checked) { border-color: hsl(var(--path-accent) / .7); background: hsl(var(--path-accent) / .06); color: hsl(var(--foreground)); }
-.checkpoint-option input { width: 1rem; height: 1rem; flex: none; margin: 0; accent-color: hsl(var(--path-accent)); }
-.checkpoint-option:has(input:focus-visible) { outline: 2px solid hsl(var(--path-accent)); outline-offset: 2px; }
-.checkpoint-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1rem; }
-.checkpoint-feedback { display: flex; flex: 1 1 15rem; align-items: flex-start; gap: .4rem; margin: 0; font-size: .7rem; line-height: 1.6; }
-.checkpoint-feedback svg { width: .9rem; height: .9rem; flex: none; margin-top: .15rem; }
-.checkpoint-feedback.is-correct { color: hsl(var(--path-accent)); }
-.checkpoint-feedback.is-retry { color: hsl(var(--muted-foreground)); }
-.roadmap-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1.4rem; }
-.roadmap-controls > span { color: hsl(var(--muted-foreground)); font-size: .53rem; letter-spacing: .15em; }
-.roadmap-controls > div { display: flex; flex-wrap: wrap; gap: .35rem; }
-.roadmap-controls button { min-height: 2.75rem; }
-.roadmap-controls button:disabled { opacity: .38; cursor: not-allowed; }
-.mobile-navigation { position: absolute; }
+.liquid-glass:focus-visible {
+  outline: 2px solid hsl(var(--foreground));
+  outline-offset: -3px;
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-rise {
+  animation: fade-rise .8s ease-out both;
+}
+
+.animate-fade-rise-delay {
+  animation: fade-rise .8s ease-out .2s both;
+}
+
+.animate-fade-rise-delay-2 {
+  animation: fade-rise .8s ease-out .4s both;
+}
+
+.hero-copy {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .28);
+}
+
+.hero-video {
+  background: hsl(var(--background));
+}
+
+.hero-video::-webkit-media-controls {
+  display: none !important;
+}
+
+/* ─── Jasper-style Platform Cards (Single Row, Sharp Edges, Matrix Grid, Always Active) ─── */
+.platform-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  .platform-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .platform-cards {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+}
+
+.platform-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0px; /* Sharp edges just like Jasper */
+  background: transparent; /* Default background same as website */
+  color: inherit;
+  text-decoration: none;
+  min-height: 440px; /* Upright portrait proportion just like Jasper */
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transform: none !important; /* No elevation */
+  box-shadow: none !important; /* No floating shadow */
+}
+
+.platform-card:hover {
+  background: rgba(255, 255, 255, 0.045); /* Distinct background change on cursor hover */
+  border-color: rgba(212, 154, 61, 0.45); /* Warm gold border highlight */
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.platform-card:focus-visible {
+  outline: 2px solid hsl(var(--path-accent));
+  outline-offset: 2px;
+}
+
+.platform-card-header {
+  padding: 1.75rem 1.5rem 0.5rem;
+  min-height: 5.25rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.platform-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* ─── Matrix Grid Container behind illustrations (Jasper style: Full width, NO square box boundary!) ─── */
+.platform-card-illustration {
+  position: relative;
+  height: 215px;
+  width: 100%;
+  margin: 0;
+  padding: 0 0.5rem;
+  border: none !important;
+  /* NO clear square boundary! Seamless like Jasper */
+  background-color: transparent;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Footer: Underline on hover & Arrow moves forward (no circle) ─── */
+.platform-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 1.75rem;
+  margin-top: auto;
+}
+
+.platform-card-footer p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.82rem;
+  line-height: 1.5;
+  max-width: 25ch;
+  transition: color 0.2s ease;
+}
+
+.platform-card:hover .platform-card-footer p {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.platform-card-footer .card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--muted-foreground));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+  flex-shrink: 0;
+  margin-bottom: 2px;
+}
+
+.platform-card:hover .card-arrow {
+  transform: translateX(6px);
+  /* Arrow moves forward */
+  color: hsl(var(--path-accent));
+}
+
+/* ─── Meaningful Always-Active Animations ─── */
+
+/* 1. Terminal Blinking Cursor */
+@keyframes blink-cursor {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.anim-blink {
+  animation: blink-cursor 1s infinite;
+}
+
+/* 2. Algorithmic Binary Search Scanning Probe (Navigates precisely at node centers) */
+@keyframes tree-search-scan {
+  0% {
+    transform: translate(140px, 38px);
+    opacity: 0;
+  }
+
+  10%,
+  25% {
+    transform: translate(140px, 38px);
+    opacity: 1;
+  }
+
+  45%,
+  60% {
+    transform: translate(190px, 78px);
+    opacity: 1;
+  }
+
+  75%,
+  92% {
+    transform: translate(165px, 120px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(165px, 120px);
+    opacity: 0;
+  }
+}
+
+.anim-tree-search {
+  animation: tree-search-scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Target Match Ripple at node 10 center */
+@keyframes match-ripple {
+
+  0%,
+  70% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  75% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  92% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+.anim-match-ripple {
+  transform-origin: 165px 120px;
+  animation: match-ripple 4s ease-out infinite;
+}
+
+/* 3. Full-Stack Request/Response Data Flow */
+@keyframes req-flow {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  45% {
+    transform: translateX(75px);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(75px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(75px);
+    opacity: 0;
+  }
+}
+
+.anim-req-flow {
+  animation: req-flow 3.5s ease-in-out infinite;
+}
+
+.illus-dot:nth-child(2) {
+  animation-delay: -0.8s;
+}
+
+.illus-dot:nth-child(3) {
+  animation-delay: -1.6s;
+}
+
+.illus-dot:nth-child(4) {
+  animation-delay: -2.4s;
+}
+
+@keyframes db-query-flow {
+
+  0%,
+  40% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  75% {
+    transform: translateX(65px);
+    opacity: 1;
+  }
+
+  80% {
+    transform: translateX(65px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(65px);
+    opacity: 0;
+  }
+}
+
+.anim-db-flow {
+  animation: db-query-flow 3.5s ease-in-out infinite;
+}
+
+.illus-orbit:nth-child(2) {
+  animation-delay: -3.3s;
+  animation-duration: 12s;
+}
+
+.illus-orbit:nth-child(3) {
+  animation-delay: -6.6s;
+  animation-duration: 14s;
+}
+
+@keyframes res-flow {
+
+  0%,
+  75% {
+    transform: translateX(140px);
+    opacity: 0;
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  96% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+}
+
+.anim-res-flow {
+  animation: res-flow 3.5s ease-in-out infinite;
+}
+
+.illus-bob-delay {
+  animation: bob 3.2s ease-in-out 0.6s infinite;
+}
+
+/* 4. AI/ML Attention Core Orbital Rotation (Jasper Context Style) */
+@keyframes orbital-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.anim-orbital-1 {
+  transform-origin: 135px 85px;
+  animation: orbital-rotate 9s linear infinite;
+}
+
+.anim-orbital-2 {
+  transform-origin: 135px 85px;
+  animation: orbital-rotate 13s linear infinite reverse;
+}
+
+.illus-drift-delay {
+  animation: drift 5.5s ease-in-out 1.2s infinite;
+}
+
+@keyframes star-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.anim-star-pulse {
+  transform-origin: 135px 85px;
+  animation: star-pulse 3s ease-in-out infinite;
+}
+
+.illus-pulse-delay {
+  animation: scale-pulse 2.8s ease-in-out 0.5s infinite;
+}
+
+/* 5. Python Loop Data Stream */
+@keyframes py-stream {
+  0% {
+    stroke-dashoffset: 80;
+    opacity: 0.3;
+  }
+
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: -80;
+    opacity: 0.3;
+  }
+}
+
+.anim-py-stream {
+  stroke-dasharray: 20 60;
+  animation: py-stream 3s linear infinite;
+}
+
+/* 6. Subtle Continuous Ambient Float */
+@keyframes ambient-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.anim-float {
+  animation: ambient-float 3s ease-in-out infinite;
+}
+
+.anim-float-delay {
+  animation: ambient-float 3.5s ease-in-out 0.8s infinite;
+}
+
+/* Legacy course-row fallback (kept for ProgramPage) */
+.course-row {
+  border-top: 1px solid hsl(var(--border));
+}
+
+.course-row:last-child {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.course-row {
+  color: inherit;
+  text-decoration: none;
+  transition: padding .25s ease, color .25s ease;
+}
+
+.course-row:hover {
+  padding-left: .6rem;
+  padding-right: .6rem;
+}
+
+.course-row:focus-visible {
+  outline: 2px solid hsl(var(--foreground));
+  outline-offset: 4px;
+}
+
+.learning-loop {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.learning-loop li {
+  min-width: 0;
+  border-top: 1px solid hsl(var(--border));
+  padding-top: 1rem;
+}
+
+.learning-loop-index {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: hsl(var(--path-accent));
+  font-size: .6rem;
+  letter-spacing: .16em;
+}
+
+.learning-loop-index svg {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.learning-loop h3,
+.campus-brief h3 {
+  margin: .8rem 0 .35rem;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.learning-loop p,
+.campus-brief p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .75rem;
+  line-height: 1.7;
+}
+
+.campus-brief {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.campus-brief li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid hsl(var(--border));
+  padding: 1.15rem 0;
+}
+
+.campus-brief li>span {
+  padding-top: .25rem;
+  color: hsl(var(--path-accent));
+  font-size: .6rem;
+  letter-spacing: .15em;
+}
+
+.campus-brief h3 {
+  margin: 0 0 .35rem;
+  font-size: 1.5rem;
+}
+
+.roadmap-heading {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.roadmap-fit {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.roadmap-fit dt {
+  margin-bottom: .35rem;
+  color: hsl(var(--path-accent));
+  font-size: .55rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.roadmap-fit dd {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.roadmap-explorer {
+  display: grid;
+  gap: 2rem;
+}
+
+.roadmap-sidebar-label,
+.roadmap-station-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: hsl(var(--muted-foreground));
+  font-size: .58rem;
+  letter-spacing: .16em;
+}
+
+.roadmap-sidebar-label {
+  margin: 0 0 1rem;
+}
+
+.roadmap-sidebar-label span {
+  letter-spacing: .1em;
+}
+
+.roadmap-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .4rem;
+}
+
+.roadmap-stop {
+  display: grid;
+  min-width: 0;
+  min-height: 4.5rem;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.roadmap-stop:hover {
+  background: hsl(var(--foreground) / .04);
+  color: hsl(var(--foreground));
+}
+
+.roadmap-stop.is-active {
+  border-color: hsl(var(--path-accent) / .35);
+  background: hsl(var(--path-accent) / .07);
+  color: hsl(var(--foreground));
+}
+
+.roadmap-stop:focus-visible {
+  outline: 2px solid hsl(var(--path-accent));
+  outline-offset: 2px;
+}
+
+.roadmap-stop-marker {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  place-items: center;
+  border: 1px solid hsl(var(--border));
+  border-radius: 50%;
+  background: hsl(var(--background));
+  color: hsl(var(--muted-foreground));
+  font-size: .57rem;
+  letter-spacing: .04em;
+}
+
+.roadmap-stop.is-active .roadmap-stop-marker {
+  border-color: hsl(var(--path-accent));
+  color: hsl(var(--path-accent));
+}
+
+.roadmap-stop-marker>span {
+  width: .48rem;
+  height: .48rem;
+  border-radius: 50%;
+  background: hsl(var(--path-accent));
+}
+
+.roadmap-stop-copy {
+  display: grid;
+  gap: .24rem;
+  min-width: 0;
+}
+
+.roadmap-stop-copy small {
+  color: hsl(var(--muted-foreground));
+  font-size: .5rem;
+  letter-spacing: .12em;
+}
+
+.roadmap-stop-copy strong {
+  font-size: .72rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.roadmap-sidebar-note {
+  margin: 1rem .25rem 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .68rem;
+  line-height: 1.6;
+}
+
+.roadmap-station {
+  min-width: 0;
+  border-top: 1px solid hsl(var(--border));
+  padding-top: 1.5rem;
+}
+
+.roadmap-station-counter {
+  margin-bottom: 1rem;
+}
+
+.roadmap-station-counter span:last-child {
+  color: hsl(var(--foreground));
+  font-variant-numeric: tabular-nums;
+}
+
+.roadmap-station-counter i {
+  padding: 0 .35rem;
+  color: hsl(var(--muted-foreground));
+  font-style: normal;
+}
+
+.roadmap-station-kicker {
+  margin: 0 0 .75rem;
+  color: hsl(var(--path-accent));
+  font-size: .58rem;
+  letter-spacing: .16em;
+}
+
+.roadmap-work {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.roadmap-work-item {
+  border-left: 1px solid hsl(var(--border));
+  padding-left: 1rem;
+}
+
+.roadmap-work-item>span {
+  color: hsl(var(--muted-foreground));
+  font-size: .55rem;
+  letter-spacing: .14em;
+}
+
+.roadmap-work-item p {
+  margin: .4rem 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .75rem;
+  line-height: 1.55;
+}
+
+.roadmap-work-outcome {
+  border-color: hsl(var(--path-accent) / .6);
+}
+
+.roadmap-work-outcome p {
+  color: hsl(var(--foreground) / .9);
+}
+
+.roadmap-work-list {
+  margin: .6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.roadmap-work-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .45rem;
+  font-size: .75rem;
+  line-height: 1.45;
+  color: hsl(var(--foreground) / .85);
+}
+
+.roadmap-work-list li svg {
+  width: .85rem;
+  height: .85rem;
+  flex: none;
+  margin-top: .15rem;
+  color: hsl(var(--path-accent));
+}
+
+.roadmap-problem-list {
+  margin: .6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.roadmap-problem-list li {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .73rem;
+  color: hsl(var(--foreground) / .88);
+}
+
+.roadmap-problem-list li::before {
+  content: "•";
+  color: hsl(var(--path-accent));
+  font-weight: bold;
+  margin-right: .2rem;
+}
+
+.checkpoint {
+  border: 1px solid hsl(var(--border));
+  border-radius: 1.25rem;
+  background: hsl(var(--background) / .65);
+  padding: 1.25rem;
+}
+
+.checkpoint-heading {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: 1.15rem;
+}
+
+.checkpoint-icon {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid hsl(var(--path-accent) / .45);
+  border-radius: 50%;
+  color: hsl(var(--path-accent));
+}
+
+.checkpoint-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checkpoint-eyebrow {
+  margin: 0 0 .25rem;
+  color: hsl(var(--muted-foreground));
+  font-size: .52rem;
+  letter-spacing: .15em;
+}
+
+.checkpoint-heading h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+.checkpoint-time {
+  margin-left: auto;
+  color: hsl(var(--muted-foreground));
+  font-size: .52rem;
+  letter-spacing: .12em;
+}
+
+.checkpoint-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.checkpoint-fieldset legend {
+  margin-bottom: .9rem;
+  font-size: .84rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.checkpoint-options {
+  display: grid;
+  gap: .5rem;
+}
+
+.checkpoint-option {
+  position: relative;
+  display: flex;
+  min-height: 2.8rem;
+  align-items: center;
+  gap: .75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: .8rem;
+  padding: .65rem .8rem;
+  color: hsl(var(--muted-foreground));
+  font-size: .73rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.checkpoint-option:hover {
+  border-color: hsl(var(--foreground) / .4);
+  color: hsl(var(--foreground));
+}
+
+.checkpoint-option:has(input:checked) {
+  border-color: hsl(var(--path-accent) / .7);
+  background: hsl(var(--path-accent) / .06);
+  color: hsl(var(--foreground));
+}
+
+.checkpoint-option input {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  margin: 0;
+  accent-color: hsl(var(--path-accent));
+}
+
+.checkpoint-option:has(input:focus-visible) {
+  outline: 2px solid hsl(var(--path-accent));
+  outline-offset: 2px;
+}
+
+.checkpoint-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .8rem;
+  margin-top: 1rem;
+}
+
+.checkpoint-feedback {
+  display: flex;
+  flex: 1 1 15rem;
+  align-items: flex-start;
+  gap: .4rem;
+  margin: 0;
+  font-size: .7rem;
+  line-height: 1.6;
+}
+
+.checkpoint-feedback svg {
+  width: .9rem;
+  height: .9rem;
+  flex: none;
+  margin-top: .15rem;
+}
+
+.checkpoint-feedback.is-correct {
+  color: hsl(var(--path-accent));
+}
+
+.checkpoint-feedback.is-retry {
+  color: hsl(var(--muted-foreground));
+}
+
+.roadmap-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-top: 1.4rem;
+}
+
+.roadmap-controls>span {
+  color: hsl(var(--muted-foreground));
+  font-size: .53rem;
+  letter-spacing: .15em;
+}
+
+.roadmap-controls>div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.roadmap-controls button {
+  min-height: 2.75rem;
+}
+
+.roadmap-controls button:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.mobile-navigation {
+  position: absolute;
+}
+
 .form-control {
   width: 100%;
   border: 1px solid hsl(var(--border));
@@ -165,48 +1098,168 @@ button, input, select, textarea { font: inherit; }
   padding: .8rem .9rem;
   outline: none;
 }
-textarea.form-control { min-height: 8rem; resize: none; }
-.form-control::placeholder { color: hsl(var(--muted-foreground)); }
-.form-control:focus-visible { border-color: hsl(var(--foreground)); box-shadow: 0 0 0 2px hsl(var(--foreground) / .18); }
-a:focus-visible { outline: 2px solid hsl(var(--foreground)); outline-offset: 4px; }
+
+textarea.form-control {
+  min-height: 8rem;
+  resize: none;
+}
+
+.form-control::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.form-control:focus-visible {
+  border-color: hsl(var(--foreground));
+  box-shadow: 0 0 0 2px hsl(var(--foreground) / .18);
+}
+
+a:focus-visible {
+  outline: 2px solid hsl(var(--foreground));
+  outline-offset: 4px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
 
 @media (max-width: 640px) {
-  .roadmap-work { grid-template-columns: 1fr; }
-  .roadmap-controls { align-items: flex-start; }
-  .roadmap-controls > div { width: 100%; justify-content: space-between; }
-  .roadmap-controls button { padding-inline: .65rem; }
+  .roadmap-work {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-controls {
+    align-items: flex-start;
+  }
+
+  .roadmap-controls>div {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .roadmap-controls button {
+    padding-inline: .65rem;
+  }
 }
 
 @media (min-width: 768px) {
-  .learning-loop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
-  .learning-loop li { padding-top: 1.2rem; }
-  .roadmap-heading { grid-template-columns: 1fr auto; align-items: end; gap: 3rem; }
-  .roadmap-fit { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .roadmap-fit > div + div { border-left: 1px solid hsl(var(--border)); padding-left: 2rem; }
-  .roadmap-explorer { grid-template-columns: minmax(14rem, .72fr) minmax(0, 1.55fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
-  .roadmap-sidebar { position: sticky; top: 1.5rem; }
-  .roadmap-track { grid-template-columns: 1fr; gap: .25rem; position: relative; }
-  .roadmap-track::before { position: absolute; top: 1.6rem; bottom: 1.6rem; left: 1.55rem; width: 1px; background: hsl(var(--border)); content: ""; }
-  .roadmap-stop { grid-template-columns: 2.75rem minmax(0, 1fr); }
-  .roadmap-stop-marker { position: relative; z-index: 1; width: 2.25rem; height: 2.25rem; }
-  .roadmap-stop-copy strong { font-size: .8rem; }
-  .roadmap-station { border-top: 0; padding-top: 0; }
-  .roadmap-work { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-  .checkpoint { padding: 1.75rem; }
+  .learning-loop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .learning-loop li {
+    padding-top: 1.2rem;
+  }
+
+  .roadmap-heading {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 3rem;
+  }
+
+  .roadmap-fit {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .roadmap-fit>div+div {
+    border-left: 1px solid hsl(var(--border));
+    padding-left: 2rem;
+  }
+
+  .roadmap-explorer {
+    grid-template-columns: minmax(14rem, .72fr) minmax(0, 1.55fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  .roadmap-sidebar {
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .roadmap-track {
+    grid-template-columns: 1fr;
+    gap: .25rem;
+    position: relative;
+  }
+
+  .roadmap-track::before {
+    position: absolute;
+    top: 1.6rem;
+    bottom: 1.6rem;
+    left: 1.55rem;
+    width: 1px;
+    background: hsl(var(--border));
+    content: "";
+  }
+
+  .roadmap-stop {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+  }
+
+  .roadmap-stop-marker {
+    position: relative;
+    z-index: 1;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .roadmap-stop-copy strong {
+    font-size: .8rem;
+  }
+
+  .roadmap-station {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .roadmap-work {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .checkpoint {
+    padding: 1.75rem;
+  }
 }
 
 @media (forced-colors: active) {
-  html { scrollbar-color: auto; }
-  .roadmap-stop.is-active, .checkpoint-option:has(input:checked) { border: 2px solid Highlight; }
+  html {
+    scrollbar-color: auto;
+  }
+
+  .roadmap-stop.is-active,
+  .checkpoint-option:has(input:checked) {
+    border: 2px solid Highlight;
+  }
 }
 
 @supports selector(::-webkit-scrollbar) {
-  *::-webkit-scrollbar { width: .7rem; height: .7rem; }
-  *::-webkit-scrollbar-track { background: hsl(var(--background)); }
-  *::-webkit-scrollbar-thumb { border: 2px solid hsl(var(--background)); border-radius: 999px; background: hsl(var(--muted-foreground) / .45); }
-  *::-webkit-scrollbar-thumb:hover { background: hsl(var(--foreground) / .65); }
+  *::-webkit-scrollbar {
+    width: .7rem;
+    height: .7rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 2px solid hsl(var(--background));
+    border-radius: 999px;
+    background: hsl(var(--muted-foreground) / .45);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground) / .65);
+  }
 }

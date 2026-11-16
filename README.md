@@ -1,4 +1,4 @@
-# SMK Technologies website
+# SMK TechVora website
 
 This website uses Vite and React. Do not open `index.html` directly from File Explorer; the page needs Vite to load its TypeScript modules.
 

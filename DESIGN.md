@@ -1,8 +1,8 @@
-# SMK Technologies — Public site
+# SMK TechVora — Public site
 
 ## Purpose and audience
 
-This is a public introduction to SMK Technologies for college students and campus groups exploring practical technology training. The home page is a concise introduction: one cinematic statement, short program links, an explained learning loop, a campus-cohort enquiry prompt, and a clear contact form. Dedicated program pages explain the curriculum and its ordered roadmap. Keep detailed explanations on those pages. Use the SMK identity and college context; do not replace it with a generic studio brand or make unsupported placement claims.
+This is a public introduction to SMK TechVora for college students and campus groups exploring practical technology training. The home page is a concise introduction: one cinematic statement, short program links, an explained learning loop, a campus-cohort enquiry prompt, and a clear contact form. Dedicated program pages explain the curriculum and its ordered roadmap. Keep detailed explanations on those pages. Use the SMK identity and college context; do not replace it with a generic studio brand or make unsupported placement claims.
 
 ## North Star
 
