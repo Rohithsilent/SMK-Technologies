@@ -15,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button"
 import BrandSignature from "@/components/BrandSignature"
 import RoadmapExplorer from "./RoadmapExplorer"
+import CelestialAtmosphere from "@/components/CelestialAtmosphere"
+import ThemeToggle from "@/components/ThemeToggle"
 
 export type RoadmapStage = {
   title: string
@@ -955,9 +957,12 @@ function SiteHeader() {
         <a href="/#approach" className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground lg:inline">How it works</a>
         <a href="/#campus" className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground lg:inline">For colleges</a>
       </nav>
-      <Button asChild variant="glass" className="hidden rounded-full px-5 lg:inline-flex">
-        <a href="/#contact">Talk to us <ArrowUpRight aria-hidden="true" /></a>
-      </Button>
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
+        <Button asChild variant="glass" className="hidden rounded-full px-5 lg:inline-flex">
+          <a href="/#contact">Talk to us <ArrowUpRight aria-hidden="true" /></a>
+        </Button>
+      </div>
     </header>
   )
 }
@@ -969,18 +974,7 @@ export default function ProgramPage({ program }: { program: Program }) {
     <main className="min-h-screen overflow-x-clip bg-background text-foreground">
       {/* Hero Section */}
       <section className="relative isolate flex min-h-[82svh] flex-col bg-background">
-        <video
-          className="hero-video absolute inset-0 z-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          tabIndex={-1}
-        >
-          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" type="video/mp4" />
-        </video>
+        <CelestialAtmosphere />
 
         <SiteHeader />
 
@@ -1006,28 +1000,28 @@ export default function ProgramPage({ program }: { program: Program }) {
 
           {/* Quick Metrics Bar */}
           <div className="animate-fade-rise-delay-2 mt-8 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm">
+            <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-path-accent">
                 <Calendar className="size-3" aria-hidden="true" /> Duration
               </span>
               <p className="mt-1.5 text-xs font-medium text-foreground sm:text-sm">{program.duration}</p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm">
+            <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-path-accent">
                 <Terminal className="size-3" aria-hidden="true" /> Hands-on
               </span>
               <p className="mt-1.5 text-xs font-medium text-foreground sm:text-sm">{program.problemsCount}</p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm">
+            <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-path-accent">
                 <Layers className="size-3" aria-hidden="true" /> Format
               </span>
               <p className="mt-1.5 text-xs font-medium text-foreground sm:text-sm">{program.mode}</p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm">
+            <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-path-accent">
                 <Award className="size-3" aria-hidden="true" /> Goal
               </span>
@@ -1036,10 +1030,10 @@ export default function ProgramPage({ program }: { program: Program }) {
           </div>
 
           <div className="animate-fade-rise-delay-2 mt-10 flex flex-wrap items-center gap-4">
-            <Button asChild variant="default" size="lg" className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black hover:bg-white/90">
+            <Button asChild variant="default" size="lg" className="hero-btn-primary px-7 py-3 text-sm font-medium">
               <a href="#roadmap">Explore Detailed Syllabus <ArrowDown className="size-4" aria-hidden="true" /></a>
             </Button>
-            <Button asChild variant="glass" size="lg" className="rounded-full px-7 py-3 text-sm">
+            <Button asChild variant="glass" size="lg" className="hero-btn-secondary px-7 py-3 text-sm">
               <a href="/#contact">Request Campus Proposal <ArrowRight className="size-4" aria-hidden="true" /></a>
             </Button>
           </div>

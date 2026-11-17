@@ -10,9 +10,8 @@ import {
 import { Button } from "@/components/ui/button"
 import BrandSignature from "@/components/BrandSignature"
 import ProgramPage, { getProgramForPath } from "./ProgramPage"
-
-const videoSource =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+import CelestialAtmosphere from "@/components/CelestialAtmosphere"
+import ThemeToggle from "@/components/ThemeToggle"
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -65,18 +64,7 @@ function App() {
   return (
     <main className="overflow-x-clip bg-background text-foreground">
       <section id="home" className="relative isolate flex min-h-svh flex-col bg-background">
-        <video
-          className="hero-video absolute inset-0 z-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          tabIndex={-1}
-        >
-          <source src={videoSource} type="video/mp4" />
-        </video>
+        <CelestialAtmosphere />
 
         <header className="relative z-30 mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 sm:px-8">
           <BrandSignature href="#home" />
@@ -95,6 +83,7 @@ function App() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Button asChild variant="glass" className="hidden rounded-full px-6 py-2.5 text-sm sm:inline-flex">
               <a href="#programs">Explore programs <ArrowUpRight aria-hidden="true" /></a>
             </Button>
@@ -118,12 +107,16 @@ function App() {
               className="mobile-navigation liquid-glass absolute left-4 right-4 top-[calc(100%-8px)] z-20 flex flex-col gap-1 rounded-2xl p-3 sm:left-6 sm:right-6 lg:hidden"
               aria-label="Mobile navigation"
             >
+              <div className="flex items-center justify-between px-4 py-2 border-b border-foreground/10">
+                <span className="text-xs font-medium text-muted-foreground">Appearance</span>
+                <ThemeToggle />
+              </div>
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-white/10"
+                  className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-foreground/10"
                 >
                   {item.label}
                 </a>
@@ -131,14 +124,14 @@ function App() {
               <a
                 href="#programs"
                 onClick={() => setMenuOpen(false)}
-                className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-white/10"
+                className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-foreground/10"
               >
                 Explore programs <ArrowUpRight className="ml-1 inline size-4" aria-hidden="true" />
               </a>
               <a
                 href="#contact"
                 onClick={() => setMenuOpen(false)}
-                className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-white/10"
+                className="min-h-11 rounded-xl px-4 py-3 text-sm text-foreground transition-colors hover:bg-foreground/10"
               >
                 Get in touch <ArrowUpRight className="ml-1 inline size-4" aria-hidden="true" />
               </a>
@@ -154,16 +147,16 @@ function App() {
             className="animate-fade-rise max-w-7xl text-[clamp(2.5rem,8.5vw,6rem)] font-normal leading-[.95] tracking-[-.04em] text-foreground"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            Master <em className="not-italic text-muted-foreground">Coding.</em><br className="hidden sm:block" /> Crack <em className="not-italic text-muted-foreground">Placements.</em>
+            Master <em className="hero-em not-italic">Coding.</em><br className="hidden sm:block" /> Crack <em className="hero-em not-italic">Placements.</em>
           </h1>
           <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             Hands-on training in Data Structures, Full-Stack Web Development, and AI. Built to help engineering students master problem-solving and get placed in top companies.
           </p>
           <div className="animate-fade-rise-delay-2 mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild variant="default" className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black hover:bg-white/90">
+            <Button asChild variant="default" className="hero-btn-primary px-7 py-3 text-sm font-medium">
               <a href="#programs">Explore Programs <ArrowDown className="size-4" aria-hidden="true" /></a>
             </Button>
-            <Button asChild variant="glass" className="rounded-full px-7 py-3 text-sm font-medium">
+            <Button asChild variant="glass" className="hero-btn-secondary px-7 py-3 text-sm font-medium">
               <a href="#campus">Campus Collaboration <ArrowRight className="size-4" aria-hidden="true" /></a>
             </Button>
           </div>
