@@ -498,7 +498,7 @@ function App() {
           <ol className="learning-loop">
             <li><span className="learning-loop-index">01 <ArrowRight aria-hidden="true" /></span><h3>Concept from scratch</h3><p>We break down complex logic with simple diagrams and step-by-step examples that any beginner can follow.</p></li>
             <li><span className="learning-loop-index">02 <ArrowRight aria-hidden="true" /></span><h3>Live hands-on practice</h3><p>Write real code in class, solve contest problems, and fix bugs live with mentor guidance.</p></li>
-            <li><span className="learning-loop-index">03 <Check aria-hidden="true" /></span><h3>Interview-ready thinking</h3><p>Learn how to explain your approach, optimize time complexity, and confidently answer recruiter questions.</p></li>
+            <li><span className="learning-loop-index">03 <Check aria-hidden="true" /></span><h3>Explain & reflect</h3><p>After solving, explain why your approach works, test an edge case, and compare its time and space complexity.</p></li>
           </ol>
         </div>
       </section>
