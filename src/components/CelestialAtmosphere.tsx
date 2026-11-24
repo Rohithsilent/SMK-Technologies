@@ -1,27 +1,43 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTheme } from "@/context/ThemeContext"
 
 const NIGHT_VIDEO = "/night-hero.mp4"
 const DAY_VIDEO = "/day-time.mp4"
 const DAY_POSTER = "/day-time-poster.jpg"
+const NIGHT_POSTER = "/night-hero-frame.png"
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
 
 export default function CelestialAtmosphere() {
   const { theme } = useTheme()
   const isDay = theme === "light"
   const nightVideoRef = useRef<HTMLVideoElement>(null)
   const dayVideoRef = useRef<HTMLVideoElement>(null)
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia(REDUCED_MOTION_QUERY).matches,
+  )
 
-  // Ensure both video streams are actively playing and synchronized for seamless crossfading
   useEffect(() => {
-    const playSafe = (video: HTMLVideoElement | null) => {
-      if (!video) return
-      video.play().catch(() => {
-        // Autoplay policy fallback
-      })
-    }
-    playSafe(nightVideoRef.current)
-    playSafe(dayVideoRef.current)
+    const preference = window.matchMedia(REDUCED_MOTION_QUERY)
+    const updatePreference = () => setReducedMotion(preference.matches)
+    preference.addEventListener("change", updatePreference)
+    return () => preference.removeEventListener("change", updatePreference)
   }, [])
+
+  // Play only the visible theme's video, and keep decorative motion off when requested.
+  useEffect(() => {
+    const activeVideo = isDay ? dayVideoRef.current : nightVideoRef.current
+    const inactiveVideo = isDay ? nightVideoRef.current : dayVideoRef.current
+    inactiveVideo?.pause()
+
+    if (reducedMotion) {
+      activeVideo?.pause()
+      return
+    }
+
+    activeVideo?.play().catch(() => {
+      // Keep the poster and background color as the autoplay fallback.
+    })
+  }, [isDay, reducedMotion])
 
   return (
     <div
@@ -34,11 +50,12 @@ export default function CelestialAtmosphere() {
         className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isDay ? "opacity-0" : "opacity-100"
         }`}
-        autoPlay
+        poster={NIGHT_POSTER}
+        autoPlay={!reducedMotion && !isDay}
         loop
         muted
         playsInline
-        preload="auto"
+        preload={!reducedMotion && !isDay ? "auto" : "none"}
         tabIndex={-1}
       >
         <source src={NIGHT_VIDEO} type="video/mp4" />
@@ -51,11 +68,11 @@ export default function CelestialAtmosphere() {
         className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isDay ? "opacity-100" : "opacity-0"
         }`}
-        autoPlay
+        autoPlay={!reducedMotion && isDay}
         loop
         muted
         playsInline
-        preload="auto"
+        preload={!reducedMotion && isDay ? "auto" : "none"}
         tabIndex={-1}
       >
         <source src={DAY_VIDEO} type="video/mp4" />
