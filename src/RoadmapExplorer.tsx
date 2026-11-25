@@ -385,7 +385,7 @@ export default function RoadmapExplorer({
       {/* ─── Architectural Blueprint Matrix Canvas ─── */}
       <div className="roadmap-canvas relative px-4 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 hidden lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(16.5rem,0.9fr)_minmax(0,1.05fr)] lg:items-center lg:px-2">
+          <div className="mb-8 hidden lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,0.85fr)_minmax(0,1fr)] lg:items-center lg:px-2">
             <div className="flex items-center justify-end gap-2 pr-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               <BookOpen className="size-3.5 text-path-accent" aria-hidden="true" />
               <span>Concepts &amp; Topics to Learn</span>
