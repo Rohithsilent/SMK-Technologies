@@ -100,7 +100,7 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
           isScrolled || mode === "program" || menuOpen ? "is-scrolled" : ""
         }`}
       >
-        <div className="mx-auto flex h-16 w-full max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:px-8">
+        <div className="flex h-16 w-full items-center justify-between gap-4 px-5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:px-10">
           <div className="justify-self-start">
             <BrandSignature href={`${prefix}#home`} onNavigate={onNavigate} />
           </div>
