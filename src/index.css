@@ -25,8 +25,8 @@
   --path-accent: 7 96% 57%;
   /* Jasper Coral #FA4028 */
   --ring: 7 96% 57%;
-  --font-display: "Instrument Serif", serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Newsreader", "Instrument Serif", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 
   /* Semantic Surface & Diagram Tokens (Dark) */
   --surface-card: #070D36;
@@ -76,8 +76,8 @@
   /* Pure White #FFFFFF */
   --foreground: 234 100% 12%;
   /* Deep Navy #00063D */
-  --muted-foreground: 234 45% 24%;
-  /* High-Contrast Slate Navy #222757 */
+  --muted-foreground: 234 55% 22%;
+  /* High-Contrast Slate Navy */
   --primary: 234 100% 12%;
   /* Primary Navy for buttons & headers */
   --primary-foreground: 0 0% 100%;
@@ -88,9 +88,9 @@
   /* Jasper Soft Peach wash #FCF6F3 */
   --accent: 7 96% 57%;
   /* Jasper Coral #FA4028 */
-  --border: 234 38% 76%;
+  --border: 234 38% 58%;
   /* Crisp structural hairline */
-  --input: 234 38% 74%;
+  --input: 234 40% 54%;
   --path-accent: 7 96% 57%;
   /* Jasper Coral */
   --ring: 7 96% 57%;
@@ -156,8 +156,8 @@
   --color-jasper-blue: #C5E7FF;
   --color-jasper-navy: #00063D;
 
-  --font-display: "Instrument Serif", serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Newsreader", "Instrument Serif", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 }
 
 * {
@@ -229,8 +229,8 @@ textarea {
 }
 
 [data-theme="light"] .site-header.is-scrolled {
-  background: rgba(255, 255, 255, 0.82);
-  border-bottom-color: rgba(0, 6, 61, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(0, 6, 61, 0.18);
 }
 
 .site-header-drawer {
@@ -367,9 +367,9 @@ textarea {
 }
 
 [data-theme="light"] .editorial-panel {
-  border-color: rgba(0, 6, 61, 0.14);
+  border-color: rgba(0, 6, 61, 0.42);
   background-color: #FFFFFF;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 16px 36px -18px rgba(0, 6, 61, 0.1);
+  box-shadow: 0 14px 32px -18px rgba(0, 6, 61, 0.12);
 }
 
 .editorial-step-tab {
@@ -390,7 +390,7 @@ textarea {
 }
 
 [data-theme="light"] .editorial-step-tab {
-  border-color: rgba(0, 6, 61, 0.14);
+  border-color: rgba(0, 6, 61, 0.34);
   background-color: #FFFFFF;
 }
 
@@ -409,7 +409,7 @@ textarea {
 
 [data-theme="light"] .contact-form {
   background-color: #FFFFFF;
-  border: 1px solid rgba(0, 6, 61, 0.14);
+  border: 1px solid rgba(0, 6, 61, 0.36);
   box-shadow: 0 24px 48px -12px rgba(0, 6, 61, 0.08);
 }
 
@@ -475,14 +475,14 @@ textarea {
 
 [data-theme="light"] .platform-card {
   background: #FFFFFF;
-  border: 1px solid rgba(0, 6, 61, 0.16);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 16px -8px rgba(0, 6, 61, 0.08);
+  border: 1px solid rgba(0, 6, 61, 0.56);
+  box-shadow: none;
 }
 
 [data-theme="light"] .platform-card:hover {
   background: #FFFFFF;
   border-color: #FA4028;
-  box-shadow: 0 16px 34px -12px rgba(0, 6, 61, 0.15);
+  box-shadow: 0 16px 34px -12px rgba(0, 6, 61, 0.16);
 }
 
 .platform-card:focus-visible {
@@ -491,18 +491,18 @@ textarea {
 }
 
 .platform-card-header {
-  padding: 1.75rem 1.5rem 0.5rem;
-  min-height: 5.25rem;
+  padding: 1.65rem 1.5rem 0.55rem;
+  min-height: 5.5rem;
   display: flex;
   align-items: flex-start;
 }
 
 .platform-card-header h3 {
   font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   margin: 0;
   color: hsl(var(--foreground));
 }
@@ -532,16 +532,17 @@ textarea {
   align-items: flex-end;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 1.25rem 1.5rem 1.75rem;
+  padding: 1.25rem 1.5rem 1.65rem;
   margin-top: auto;
 }
 
 .platform-card-footer p {
   margin: 0;
-  color: hsl(var(--foreground) / 0.86);
-  font-size: 0.84rem;
-  line-height: 1.5;
-  max-width: 25ch;
+  color: hsl(var(--foreground));
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.52;
+  max-width: 26ch;
   transition: color 0.2s ease;
 }
 
@@ -1125,17 +1126,18 @@ textarea {
 .campus-brief h3 {
   margin: .8rem 0 .35rem;
   font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 400;
-  line-height: 1.1;
+  font-size: 1.7rem;
+  font-weight: 500;
+  line-height: 1.12;
 }
 
 .learning-loop p,
 .campus-brief p {
   margin: 0;
   color: hsl(var(--muted-foreground));
-  font-size: .8rem;
-  line-height: 1.7;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.62;
 }
 
 .campus-brief {
@@ -1149,20 +1151,20 @@ textarea {
   grid-template-columns: 2.5rem minmax(0, 1fr);
   gap: 1rem;
   border-top: 1px solid hsl(var(--border));
-  padding: 1.15rem 0;
+  padding: 1.25rem 0;
 }
 
 .campus-brief li>span {
   padding-top: .25rem;
   color: hsl(var(--path-accent));
-  font-size: .68rem;
-  font-weight: 600;
+  font-size: .75rem;
+  font-weight: 700;
   letter-spacing: .15em;
 }
 
 .campus-brief h3 {
   margin: 0 0 .35rem;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 /* ─── Course Masthead, Track Switcher & Specs Bar (Unified 4px Architecture) ─── */
@@ -1832,15 +1834,16 @@ textarea {
 .roadmap-milestone-title {
   margin: 0.75rem 0 0;
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 400;
+  font-size: 1.62rem;
+  font-weight: 500;
   line-height: 1.12;
   color: hsl(var(--foreground));
 }
 
 .roadmap-milestone-summary {
-  margin: 0.5rem 0 0;
-  font-size: 0.78rem;
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
   line-height: 1.55;
   color: hsl(var(--muted-foreground));
 }
@@ -1853,7 +1856,8 @@ textarea {
   margin-top: 0.95rem;
   padding-top: 0.75rem;
   border-top: 1px solid hsl(var(--border));
-  font-size: 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 500;
   color: hsl(var(--muted-foreground));
 }
 
@@ -1902,7 +1906,7 @@ textarea {
 }
 
 [data-theme="light"] .roadmap-topic-node {
-  border-color: rgba(0, 6, 61, 0.42);
+  border-color: rgba(0, 6, 61, 0.52);
 }
 
 .roadmap-topic-node:hover,
@@ -1954,16 +1958,17 @@ textarea {
 
 .roadmap-topic-title {
   margin: 0.45rem 0 0;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.35;
   color: hsl(var(--foreground));
 }
 
 .roadmap-topic-brief {
-  margin: 0.25rem 0 0;
-  font-size: 0.75rem;
-  line-height: 1.48;
+  margin: 0.3rem 0 0;
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.5;
   color: hsl(var(--muted-foreground));
 }
 
@@ -2023,7 +2028,7 @@ textarea {
 }
 
 [data-theme="light"] .roadmap-practice-node {
-  border-color: rgba(0, 6, 61, 0.36);
+  border-color: rgba(0, 6, 61, 0.48);
 }
 
 .roadmap-practice-node:hover,

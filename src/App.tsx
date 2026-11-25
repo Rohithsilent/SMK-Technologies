@@ -214,17 +214,14 @@ function App() {
         <CelestialAtmosphere />
 
         <div className="hero-copy relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-6 pb-20 pt-10 text-center sm:px-8 sm:pb-24">
-          <p className="animate-fade-rise mb-6 font-body text-[11px] font-medium uppercase tracking-[0.24em] text-foreground/80 sm:text-xs">
+          <p className="animate-fade-rise mb-6 font-body text-xs font-semibold uppercase tracking-[0.22em] text-foreground/85">
             Campus Recruitment &amp; Tech Training · Built for B.Tech Colleges
           </p>
-          <h1
-            className="animate-fade-rise max-w-7xl text-[clamp(2.65rem,8.5vw,6.25rem)] font-normal leading-[0.94] tracking-[-0.04em] text-foreground"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
+          <h1 className="animate-fade-rise max-w-7xl font-display text-[clamp(2.85rem,8.5vw,6.35rem)] font-medium leading-[0.95] tracking-[-0.03em] text-foreground">
             Master <em className="hero-em not-italic">Coding.</em>
             <br className="hidden sm:block" /> Crack <em className="hero-em not-italic">Placements.</em>
           </h1>
-          <p className="animate-fade-rise-delay mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="animate-fade-rise-delay mt-7 max-w-2xl text-base font-medium leading-relaxed text-foreground/85 sm:text-lg">
             Hands-on training in Data Structures, Full-Stack Web Development, and AI. Built to help engineering students master problem-solving and get placed in top companies.
           </p>
           <div className="animate-fade-rise-delay-2 mt-9 flex flex-wrap items-center justify-center gap-4">
@@ -274,16 +271,16 @@ function App() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
             <div>
-              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-path-accent">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-path-accent">
                 Explore the platform
               </p>
-              <h2 className="font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl">
+              <h2 className="font-display text-5xl font-medium leading-[1.0] tracking-[-0.025em] sm:text-6xl">
                 Structured training.
                 <br />
                 Built for <em className="hero-em not-italic">campus hiring.</em>
               </h2>
             </div>
-            <p className="max-w-lg text-sm leading-7 text-foreground/85 lg:justify-self-end lg:text-right">
+            <p className="max-w-lg text-[15px] font-medium leading-7 text-foreground/90 sm:text-base lg:justify-self-end lg:text-right">
               Four focused curriculum tracks — from first-line-of-code to clearing Day-1 company placements. Each track opens an interactive roadmap.
             </p>
           </div>
@@ -628,16 +625,16 @@ function App() {
       <section id="contact" className="border-t border-border/80 bg-muted px-6 py-20 sm:px-10 sm:py-24">
         <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="pt-2 lg:sticky lg:top-24">
-            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-path-accent">
+            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-path-accent">
               <span className="h-px w-8 bg-path-accent" aria-hidden="true" />
               Get in touch
             </p>
-            <h2 className="max-w-lg font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl">
+            <h2 className="max-w-lg font-display text-5xl font-medium leading-[1.0] tracking-[-0.025em] sm:text-6xl">
               Ready to level up
               <br />
               your campus <em className="not-italic text-muted-foreground">training?</em>
             </h2>
-            <p className="mt-6 max-w-md text-sm leading-7 text-muted-foreground">
+            <p className="mt-6 max-w-md text-[15px] font-medium leading-7 text-muted-foreground sm:text-base">
               Interested in bringing SMK to your college campus or learning more about our training tracks? Fill out the details and our team will get in touch with you.
             </p>
           </div>

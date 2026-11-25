@@ -75,16 +75,16 @@ export default function CampusBlueprint({ onSelectBatch }: CampusBlueprintProps)
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
         <div>
-          <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-path-accent">
+          <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-path-accent">
             <span className="h-px w-8 bg-path-accent" aria-hidden="true" />
             For colleges &amp; placement cells
           </p>
-          <h2 className="max-w-xl font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl">
+          <h2 className="max-w-xl font-display text-5xl font-medium leading-[1.0] tracking-[-0.025em] sm:text-6xl">
             Partner with SMK to
             <br />
             <em className="not-italic text-muted-foreground">train your students.</em>
           </h2>
-          <p className="mt-5 max-w-lg text-sm leading-7 text-muted-foreground">
+          <p className="mt-5 max-w-lg text-[15px] font-medium leading-7 text-muted-foreground sm:text-base">
             Whether you need an intensive placement bootcamp, a semester-long DSA track, or a hands-on AI workshop, we tailor the training to your college&apos;s timetable and student skill level.
           </p>
 
@@ -154,29 +154,29 @@ export default function CampusBlueprint({ onSelectBatch }: CampusBlueprintProps)
           </div>
 
           <div className="p-6 sm:p-8" role="tabpanel" aria-label={active.title}>
-            <span className="inline-block rounded-[3px] bg-[var(--coral-bg)] px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.12em] text-[var(--coral-ink)]">
+            <span className="inline-block rounded-[3px] bg-[var(--coral-bg)] px-2.5 py-1 font-mono text-[11px] font-bold tracking-[0.12em] text-[var(--coral-ink)]">
               {active.yearBadge}
             </span>
-            <h3 className="mt-4 font-display text-3xl leading-tight text-foreground sm:text-4xl">
+            <h3 className="mt-4 font-display text-3xl font-medium leading-tight text-foreground sm:text-4xl">
               {active.title}
             </h3>
 
             <dl className="mt-6 grid gap-4 border-y border-border/80 py-5 sm:grid-cols-2">
               <div>
-                <dt className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                <dt className="flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                   <Calendar className="size-3.5 text-path-accent" aria-hidden="true" />
                   Cadence
                 </dt>
-                <dd className="mt-1.5 text-xs font-medium leading-relaxed text-foreground sm:text-sm">
+                <dd className="mt-1.5 text-sm font-semibold leading-relaxed text-foreground">
                   {active.schedule}
                 </dd>
               </div>
               <div>
-                <dt className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                <dt className="flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                   <Layers className="size-3.5 text-path-accent" aria-hidden="true" />
                   Track Mix
                 </dt>
-                <dd className="mt-1.5 text-xs font-medium leading-relaxed text-foreground sm:text-sm">
+                <dd className="mt-1.5 text-sm font-semibold leading-relaxed text-foreground">
                   {active.tracks}
                 </dd>
               </div>
@@ -184,7 +184,7 @@ export default function CampusBlueprint({ onSelectBatch }: CampusBlueprintProps)
 
             <ul className="mt-6 grid gap-3">
               {active.deliverables.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-xs leading-relaxed text-foreground/90 sm:text-sm">
+                <li key={item} className="flex items-start gap-2.5 text-sm font-medium leading-relaxed text-foreground/95 sm:text-[15px]">
                   <Check className="mt-0.5 size-4 shrink-0 text-path-accent" aria-hidden="true" />
                   <span>{item}</span>
                 </li>

@@ -56,17 +56,17 @@ export default function ApproachShowcase() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <div>
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-path-accent">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-path-accent">
               How we teach at SMK
             </p>
-            <h2 className="max-w-lg font-display text-4xl leading-[1.0] tracking-tight sm:text-5xl">
+            <h2 className="max-w-lg font-display text-4xl font-medium leading-[1.02] tracking-[-0.025em] sm:text-5xl">
               Learn it from scratch.
               <br />
               Code it live.{" "}
               <em className="not-italic text-muted-foreground">Crack the interview.</em>
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-muted-foreground lg:justify-self-end">
+          <p className="max-w-xl text-[15px] font-medium leading-7 text-muted-foreground sm:text-base lg:justify-self-end">
             A 100% hands-on learning loop. Select each phase to preview how every SMK topic moves from visual intuition to live code optimization and interview articulation.
           </p>
         </div>
@@ -101,10 +101,10 @@ export default function ApproachShowcase() {
                       aria-hidden="true"
                     />
                   </div>
-                  <h3 className="font-display text-2xl font-normal leading-tight text-foreground sm:text-[1.75rem]">
+                  <h3 className="font-display text-2xl font-medium leading-tight text-foreground sm:text-[1.8rem]">
                     {step.title}
                   </h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                  <p className="text-sm font-medium leading-relaxed text-muted-foreground sm:text-[15px]">
                     {step.description}
                   </p>
                 </button>

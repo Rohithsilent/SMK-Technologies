@@ -115,8 +115,8 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 aria-current={item.active ? "page" : undefined}
-                className={`relative py-1 text-sm transition-colors duration-200 hover:text-foreground ${
-                  item.active ? "font-medium text-foreground" : "text-muted-foreground"
+                className={`relative py-1 text-[15px] font-medium transition-colors duration-200 hover:text-foreground ${
+                  item.active ? "font-semibold text-foreground" : "text-foreground/80"
                 }`}
               >
                 {item.label}

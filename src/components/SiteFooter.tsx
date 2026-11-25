@@ -28,11 +28,11 @@ export default function SiteFooter({ mode, onNavigate }: SiteFooterProps) {
   }
 
   return (
-    <footer className="border-t border-border bg-background px-6 py-12 text-xs text-muted-foreground sm:px-10 sm:py-14">
+    <footer className="border-t border-border bg-background px-6 py-12 text-sm text-muted-foreground sm:px-10 sm:py-14">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.35fr_1fr_1fr]">
         <div className="flex flex-col gap-4">
           <BrandSignature href={`${prefix}#home`} compact onNavigate={onNavigate} />
-          <p className="max-w-xs text-xs leading-6 text-muted-foreground">
+          <p className="max-w-xs text-sm font-medium leading-6 text-muted-foreground">
             Hands-on campus coding, DSA, Full-Stack Web, and AI training engineered for B.Tech students and placement cells.
           </p>
         </div>
