@@ -34,28 +34,43 @@ export default function SiteHeader({ mode, activePath = "", onNavigate }: SiteHe
 
   useEffect(() => {
     if (mode !== "home") return
-    const elements = OBSERVED_SECTIONS.map((id) => document.getElementById(id)).filter(
-      (el): el is HTMLElement => el !== null,
-    )
-    if (elements.length === 0) return
+    let rafId: number | null = null
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-        if (visible[0]?.target.id) {
-          setActiveSection(visible[0].target.id)
+    const updateActiveSection = () => {
+      rafId = null
+      const triggerY = Math.min(window.innerHeight * 0.35, 320)
+      let current: string = "home"
+
+      for (const id of OBSERVED_SECTIONS) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        if (el.getBoundingClientRect().top <= triggerY) {
+          current = id
         }
-      },
-      {
-        rootMargin: "-25% 0px -55% 0px",
-        threshold: [0.1, 0.35, 0.6],
-      },
-    )
+      }
 
-    elements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+      // If scrolled near the very bottom of the page, mark contact active
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40) {
+        current = "contact"
+      }
+
+      setActiveSection(current)
+    }
+
+    const onScrollOrResize = () => {
+      if (rafId !== null) return
+      rafId = window.requestAnimationFrame(updateActiveSection)
+    }
+
+    updateActiveSection()
+    window.addEventListener("scroll", onScrollOrResize, { passive: true })
+    window.addEventListener("resize", onScrollOrResize, { passive: true })
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId)
+      window.removeEventListener("scroll", onScrollOrResize)
+      window.removeEventListener("resize", onScrollOrResize)
+    }
   }, [mode])
 
   useEffect(() => {
@@ -75,43 +90,30 @@ export default function SiteHeader({ mode, activePath = "", onNavigate }: SiteHe
       active: mode === "program" || (mode === "home" && activeSection === "programs"),
     },
     {
-      id: "diagnostic",
-      label: "Diagnostic",
-      href: "/diagnostic",
-      active: activePath.startsWith("/diagnostic"),
+      id: "approach",
+      label: "How it works",
+      href: `${prefix}#approach`,
+      active: mode === "home" && activeSection === "approach",
     },
     {
       id: "campus",
       label: "For colleges",
       href: `${prefix}#campus`,
-      active: mode === "home" && activeSection === "campus",
+      active: (mode === "home" && activeSection === "campus") || activePath.startsWith("/tpo"),
     },
     {
       id: "portal",
       label: "Portal",
       href: "/portal",
-      active: activePath.startsWith("/portal") || activePath.startsWith("/mentor"),
-    },
-    {
-      id: "tpo",
-      label: "TPO",
-      href: "/tpo",
-      active: activePath.startsWith("/tpo"),
+      active:
+        activePath.startsWith("/portal") ||
+        activePath.startsWith("/diagnostic") ||
+        activePath.startsWith("/mentor"),
     },
   ]
 
-  const ctaLabel =
-    activePath.startsWith("/diagnostic")
-      ? "Open Portal"
-      : activePath.startsWith("/portal")
-        ? "Timed OA"
-        : "5-Min Diagnostic"
-  const ctaHref =
-    activePath.startsWith("/diagnostic")
-      ? "/portal"
-      : activePath.startsWith("/portal")
-        ? "/portal/assessments"
-        : "/diagnostic"
+  const ctaLabel = "Contact us"
+  const ctaHref = `${prefix}#contact`
 
   function handleNavClick(event: MouseEvent<HTMLAnchorElement>, href: string, closeDrawer = false) {
     if (closeDrawer) setMenuOpen(false)
@@ -143,7 +145,7 @@ export default function SiteHeader({ mode, activePath = "", onNavigate }: SiteHe
           </div>
 
           <nav
-            className="hidden items-center gap-7 justify-self-center lg:flex"
+            className="hidden items-center gap-8 justify-self-center lg:flex"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (
@@ -231,12 +233,20 @@ export default function SiteHeader({ mode, activePath = "", onNavigate }: SiteHe
             </a>
           ))}
           <a
-            href="/mentor"
+            href="/diagnostic"
             tabIndex={menuOpen ? 0 : -1}
-            onClick={(e) => handleNavClick(e, "/mentor", true)}
+            onClick={(e) => handleNavClick(e, "/diagnostic", true)}
             className="flex min-h-11 items-center justify-between rounded-[4px] px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-foreground/[0.06]"
           >
-            <span>Mentor Studio</span>
+            <span>5-Min Diagnostic</span>
+          </a>
+          <a
+            href="/tpo"
+            tabIndex={menuOpen ? 0 : -1}
+            onClick={(e) => handleNavClick(e, "/tpo", true)}
+            className="flex min-h-11 items-center justify-between rounded-[4px] px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-foreground/[0.06]"
+          >
+            <span>TPO Command Center</span>
           </a>
           <a
             href={ctaHref}

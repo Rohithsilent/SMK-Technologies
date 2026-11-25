@@ -564,14 +564,12 @@ textarea {
   color: #FA4028;
 }
 
-/* ─── Meaningful Always-Active SVG Animations ─── */
+/* ─── Meaningful Always-Active SVG Animations (Jasper Precision) ─── */
 @keyframes blink-cursor {
-
   0%,
   49% {
     opacity: 1;
   }
-
   50%,
   100% {
     opacity: 0;
@@ -582,136 +580,466 @@ textarea {
   animation: blink-cursor 1s infinite;
 }
 
-@keyframes tree-search-scan {
-  0% {
-    transform: translate(140px, 38px);
-    opacity: 0;
-  }
-
-  10%,
-  25% {
-    transform: translate(140px, 38px);
+/* 1. Python IDE Program Execution Sequence (4.8s cycle) */
+@keyframes py-line-step {
+  0%,
+  16% {
+    transform: translateY(0px);
     opacity: 1;
   }
-
-  45%,
-  60% {
-    transform: translate(190px, 78px);
+  20%,
+  34% {
+    transform: translateY(15px);
+    opacity: 0.7;
+  }
+  38%,
+  54% {
+    transform: translateY(30px);
     opacity: 1;
   }
-
-  75%,
-  92% {
-    transform: translate(165px, 120px);
-    opacity: 1;
+  60%,
+  96% {
+    transform: translateY(30px);
+    opacity: 0.25;
   }
-
   100% {
-    transform: translate(165px, 120px);
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.anim-py-line-bar {
+  animation: py-line-step 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes py-progress-sweep {
+  0%,
+  36% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  42% {
+    opacity: 1;
+  }
+  62% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  68%,
+  100% {
+    transform: scaleX(1);
     opacity: 0;
   }
 }
 
-.anim-tree-search {
-  animation: tree-search-scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+.anim-py-progress {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: py-progress-sweep 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-@keyframes match-ripple {
+@keyframes py-cmd-wipe {
+  0%,
+  26% {
+    clip-path: inset(0 100% 0 0);
+  }
+  48%,
+  94% {
+    clip-path: inset(0 0% 0 0);
+  }
+  100% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
 
+.anim-py-cmd {
+  animation: py-cmd-wipe 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes py-result-reveal {
+  0%,
+  56% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  66%,
+  92% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.anim-py-output {
+  animation: py-result-reveal 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes py-pass-reveal {
+  0%,
+  64% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  72%,
+  92% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+.anim-py-pass,
+.anim-py-status-badge {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: py-pass-reveal 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* 2. DSA Sequential Node & Edge Highlight (4.5s cycle: 8 -> 12 -> 10) */
+@keyframes dsa-node-1-glow {
+  0%,
+  6% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  12%,
+  36% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  48%,
+  88% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes dsa-edge-1-draw {
+  0%,
+  16% {
+    stroke-dashoffset: 70;
+    opacity: 0;
+  }
+  28%,
+  88% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  96%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes dsa-node-2-glow {
+  0%,
+  26% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  34%,
+  56% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  64%,
+  88% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes dsa-edge-2-draw {
+  0%,
+  42% {
+    stroke-dashoffset: 60;
+    opacity: 0;
+  }
+  54%,
+  88% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  96%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes dsa-node-3-glow {
+  0%,
+  52% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  62%,
+  88% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes dsa-ripple-ring {
+  0%,
+  58% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  86%,
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+@keyframes dsa-found-fade {
+  0%,
+  58% {
+    opacity: 0.25;
+  }
+  66%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.anim-dsa-node-1 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dsa-node-1-glow 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-dsa-edge-1 {
+  stroke-dasharray: 70;
+  animation: dsa-edge-1-draw 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-dsa-node-2 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dsa-node-2-glow 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-dsa-edge-2 {
+  stroke-dasharray: 60;
+  animation: dsa-edge-2-draw 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-dsa-node-3 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dsa-node-3-glow 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-dsa-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dsa-ripple-ring 4.5s ease-out infinite;
+}
+
+.anim-dsa-found {
+  animation: dsa-found-fade 4.5s ease-in-out infinite;
+}
+
+/* 3. Full-Stack Request Lifecycle Node Highlight (4.8s cycle: React -> Express -> DB -> 200 OK) */
+@keyframes fs-node-1-active {
+  0%,
+  4% {
+    opacity: 0;
+  }
+  10%,
+  26% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fs-btn-press {
+  0%,
+  8% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(0.92);
+  }
+  20%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fs-wire-1-active {
+  0%,
+  18% {
+    stroke-dashoffset: 24;
+    opacity: 0;
+  }
+  26%,
+  52% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  62%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fs-node-2-active {
+  0%,
+  24% {
+    opacity: 0;
+  }
+  32%,
+  52% {
+    opacity: 1;
+  }
+  62%,
+  82% {
+    opacity: 0.45;
+  }
+  92%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fs-wire-2-active {
+  0%,
+  44% {
+    stroke-dashoffset: 30;
+    opacity: 0;
+  }
+  52%,
+  76% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  86%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fs-node-3-active {
+  0%,
+  48% {
+    opacity: 0;
+  }
+  56%,
+  76% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fs-ok-reveal {
   0%,
   70% {
-    transform: scale(1);
     opacity: 0;
   }
-
-  75% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-
-  92% {
-    transform: scale(1.7);
-    opacity: 0;
-  }
-
-  100% {
-    transform: scale(1.7);
-    opacity: 0;
-  }
-}
-
-.anim-match-ripple {
-  transform-origin: 165px 120px;
-  animation: match-ripple 4s ease-out infinite;
-}
-
-@keyframes req-flow {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  15% {
+  78%,
+  94% {
     opacity: 1;
   }
-
-  45% {
-    transform: translateX(75px);
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateX(75px);
-    opacity: 0;
-  }
-
   100% {
-    transform: translateX(75px);
     opacity: 0;
   }
 }
 
-.anim-req-flow {
-  animation: req-flow 3.5s ease-in-out infinite;
-}
-
-@keyframes db-query-flow {
-
+@keyframes fs-led-pulse {
   0%,
-  40% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  75% {
-    transform: translateX(65px);
-    opacity: 1;
-  }
-
-  80% {
-    transform: translateX(65px);
-    opacity: 0;
-  }
-
+  26%,
+  56%,
   100% {
-    transform: translateX(65px);
-    opacity: 0;
+    opacity: 0.35;
+  }
+  36%,
+  48% {
+    opacity: 1;
   }
 }
 
-.anim-db-flow {
-  animation: db-query-flow 3.5s ease-in-out infinite;
+.anim-fs-ring-1 {
+  animation: fs-node-1-active 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
+.anim-fs-btn-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fs-btn-press 4.8s ease-in-out infinite;
+}
+
+.anim-fs-wire-1 {
+  stroke-dasharray: 24;
+  animation: fs-wire-1-active 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-fs-ring-2 {
+  animation: fs-node-2-active 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-fs-wire-2 {
+  stroke-dasharray: 30;
+  animation: fs-wire-2-active 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-fs-ring-3 {
+  animation: fs-node-3-active 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-fs-ok,
+.anim-fs-live-pill {
+  animation: fs-ok-reveal 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.anim-fs-led {
+  animation: fs-led-pulse 4.8s ease-in-out infinite;
+}
+
+/* 4. AI/ML Orbital Engine & Shared Ambient Float */
 @keyframes orbital-rotate {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
@@ -728,13 +1056,11 @@ textarea {
 }
 
 @keyframes star-pulse {
-
   0%,
   100% {
     transform: scale(1);
     opacity: 0.9;
   }
-
   50% {
     transform: scale(1.15);
     opacity: 1;
@@ -746,35 +1072,11 @@ textarea {
   animation: star-pulse 3s ease-in-out infinite;
 }
 
-@keyframes py-stream {
-  0% {
-    stroke-dashoffset: 80;
-    opacity: 0.3;
-  }
-
-  50% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-
-  100% {
-    stroke-dashoffset: -80;
-    opacity: 0.3;
-  }
-}
-
-.anim-py-stream {
-  stroke-dasharray: 20 60;
-  animation: py-stream 3s linear infinite;
-}
-
 @keyframes ambient-float {
-
   0%,
   100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-4px);
   }

@@ -1,12 +1,58 @@
-import { initializeApp } from "firebase/app"
-import { getAuth, GoogleAuthProvider } from "firebase/auth"
-import { doc, getDocFromServer, getFirestore } from "firebase/firestore"
-import firebaseConfig from "../../firebase-applet-config.json"
+import { initializeApp, type FirebaseApp } from "firebase/app"
+import { getAuth, GoogleAuthProvider, type Auth } from "firebase/auth"
+import { doc, getDocFromServer, getFirestore, type Firestore } from "firebase/firestore"
 
-const app = initializeApp(firebaseConfig)
+interface FirebaseAppletConfig {
+  projectId: string
+  appId: string
+  apiKey: string
+  authDomain: string
+  firestoreDatabaseId?: string
+  storageBucket?: string
+  messagingSenderId?: string
+  measurementId?: string
+}
 
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId)
-export const auth = getAuth(app)
+// Loads firebase-applet-config.json when present (AI Studio / local dev) without failing
+// `tsc -b` or Vercel builds when the generated config file is not committed to Git.
+const configModules = import.meta.glob<{ default: FirebaseAppletConfig }>(
+  "../../firebase-applet-config.json",
+  { eager: true },
+)
+const fileConfig = Object.values(configModules)[0]?.default
+
+const envConfig: Partial<FirebaseAppletConfig> = {
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  firestoreDatabaseId: import.meta.env.VITE_FIREBASE_DATABASE_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+}
+
+const resolvedConfig: FirebaseAppletConfig | null =
+  fileConfig?.apiKey && fileConfig?.projectId
+    ? fileConfig
+    : envConfig.apiKey && envConfig.projectId && envConfig.appId && envConfig.authDomain
+      ? (envConfig as FirebaseAppletConfig)
+      : null
+
+let app: FirebaseApp | null = null
+let firestoreInstance: Firestore | null = null
+let authInstance: Auth | null = null
+
+if (resolvedConfig) {
+  app = initializeApp(resolvedConfig)
+  firestoreInstance = resolvedConfig.firestoreDatabaseId
+    ? getFirestore(app, resolvedConfig.firestoreDatabaseId)
+    : getFirestore(app)
+  authInstance = getAuth(app)
+}
+
+export const isFirebaseConfigured = Boolean(app && firestoreInstance && authInstance)
+export const db: Firestore | null = firestoreInstance
+export const auth: Auth | null = authInstance
 export const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: "select_account" })
 
@@ -43,16 +89,17 @@ export function handleFirestoreError(
   operationType: OperationType,
   path: string | null,
 ): never {
+  const currentUser = auth?.currentUser
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-      emailVerified: auth.currentUser?.emailVerified,
-      isAnonymous: auth.currentUser?.isAnonymous,
-      tenantId: auth.currentUser?.tenantId,
+      userId: currentUser?.uid,
+      email: currentUser?.email,
+      emailVerified: currentUser?.emailVerified,
+      isAnonymous: currentUser?.isAnonymous,
+      tenantId: currentUser?.tenantId,
       providerInfo:
-        auth.currentUser?.providerData?.map((provider) => ({
+        currentUser?.providerData?.map((provider) => ({
           providerId: provider.providerId,
           email: provider.email,
         })) || [],
@@ -65,8 +112,9 @@ export function handleFirestoreError(
 }
 
 async function testConnection() {
+  if (!firestoreInstance) return
   try {
-    await getDocFromServer(doc(db, "test", "connection"))
+    await getDocFromServer(doc(firestoreInstance, "test", "connection"))
   } catch (error) {
     if (error instanceof Error && error.message.includes("the client is offline")) {
       console.error("Please check your Firebase configuration.")
@@ -74,6 +122,6 @@ async function testConnection() {
   }
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && firestoreInstance) {
   void testConnection()
 }

@@ -63,8 +63,11 @@ export default function VerifyTranscriptPage({
         setLoading(true)
       }
 
-      if (!cleanHandle) {
-        if (active) setLoading(false)
+      if (!cleanHandle || !db) {
+        if (active && !sampleMatch) {
+          setTranscript(null)
+          setLoading(false)
+        }
         return
       }
 

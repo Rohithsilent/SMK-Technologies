@@ -371,37 +371,67 @@ function App() {
               description="Master syntax, OOP, automation scripts, and problem-solving fundamentals from scratch."
             >
               <svg viewBox="0 0 280 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full" aria-hidden="true">
-                <g className="anim-float">
-                  <rect x="26" y="18" width="228" height="136" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                  <rect x="26" y="18" width="228" height="25" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                  <circle cx="40" cy="30.5" r="3" fill="#FFFFFF" />
-                  <circle cx="51" cy="30.5" r="3" fill="#FFFFFF" fillOpacity="0.65" />
-                  <circle cx="62" cy="30.5" r="3" fill="#FFFFFF" fillOpacity="0.35" />
-                  <text x="76" y="33.5" fill="#FFFFFF" fontSize="9" fontFamily="monospace" fontWeight="600">solution.py</text>
-                  <rect x="184" y="24" width="60" height="13" fill="#FFFFFF" stroke="var(--svg-ink)" strokeWidth="1" />
-                  <text x="214" y="33" textAnchor="middle" fill="#00063D" fontSize="7.5" fontFamily="monospace" fontWeight="700">PY 3.12</text>
+                {/* Crisp IDE Window */}
+                <rect x="24" y="16" width="232" height="128" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
+                <rect x="24" y="16" width="232" height="24" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.5" />
+                <circle cx="38" cy="28" r="2.8" fill="#FFFFFF" />
+                <circle cx="48" cy="28" r="2.8" fill="#FFFFFF" fillOpacity="0.65" />
+                <circle cx="58" cy="28" r="2.8" fill="#FFFFFF" fillOpacity="0.35" />
+                <text x="71" y="31" fill="#FFFFFF" fontSize="8.8" fontFamily="monospace" fontWeight="600">solution.py</text>
+                <rect x="190" y="21.5" width="56" height="13" fill="#FFFFFF" stroke="var(--svg-ink)" strokeWidth="1" />
+                <text x="218" y="30.5" textAnchor="middle" fill="#00063D" fontSize="7.2" fontFamily="monospace" fontWeight="700">PY 3.12</text>
 
-                  <text x="38" y="61" fill="var(--svg-coral)" fontSize="9.5" fontFamily="monospace" fontWeight="700">def</text>
-                  <text x="60" y="61" fill="var(--svg-text)" fontSize="9.5" fontFamily="monospace" fontWeight="600">sort_nums(arr):</text>
-                  <text x="48" y="76" fill="var(--svg-muted)" fontSize="8.5" fontFamily="monospace"># O(n log n) clean pass</text>
-                  <text x="48" y="91" fill="var(--svg-blue)" fontSize="9.5" fontFamily="monospace" fontWeight="700">return</text>
-                  <text x="88" y="91" fill="var(--svg-text)" fontSize="9.5" fontFamily="monospace" fontWeight="600">sorted(arr)</text>
-
-                  <rect x="36" y="102" width="208" height="42" fill="var(--svg-panel-inner)" stroke="var(--svg-ink)" strokeWidth="1.2" />
-                  <text x="44" y="117" fill="var(--svg-coral)" fontSize="9" fontFamily="monospace" fontWeight="700">&gt;&gt;&gt;</text>
-                  <text x="66" y="117" fill="var(--svg-text)" fontSize="8.5" fontFamily="monospace" fontWeight="600">sort_nums([4, 1, 3])</text>
-                  <line x1="178" y1="108" x2="178" y2="119" stroke="var(--svg-coral)" strokeWidth="1.8" className="anim-blink" />
-
-                  <rect x="44" y="124" width="66" height="15" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
-                  <text x="77" y="134.5" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontFamily="monospace" fontWeight="700">[1, 3, 4]</text>
-
-                  <rect x="172" y="124" width="64" height="15" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1" />
-                  <text x="204" y="134.5" textAnchor="middle" fill="var(--svg-green)" fontSize="8" fontFamily="monospace" fontWeight="700">✔ PASS</text>
+                {/* Active Code Line Execution Highlight Bar */}
+                <g className="anim-py-line-bar">
+                  <rect x="26" y="45" width="228" height="15" fill="var(--svg-blue-soft)" />
+                  <rect x="26" y="45" width="3" height="15" fill="var(--svg-coral)" />
                 </g>
 
-                <path d="M 18 172 Q 140 186 262 172" stroke="var(--svg-coral)" strokeWidth="1.5" strokeDasharray="6 4" className="anim-py-stream" />
-                <circle cx="16" cy="68" r="4.5" fill="var(--svg-coral)" className="anim-float" />
-                <circle cx="264" cy="96" r="4" fill="var(--svg-blue)" className="anim-float-delay" />
+                {/* Code Lines */}
+                <text x="36" y="55.5" fill="var(--svg-coral)" fontSize="9.2" fontFamily="monospace" fontWeight="700">def</text>
+                <text x="58" y="55.5" fill="var(--svg-text)" fontSize="9.2" fontFamily="monospace" fontWeight="600">sort_nums(arr):</text>
+                <text x="46" y="70.5" fill="var(--svg-muted)" fontSize="8.3" fontFamily="monospace"># O(n log n) clean pass</text>
+                <text x="46" y="85.5" fill="var(--svg-blue)" fontSize="9.2" fontFamily="monospace" fontWeight="700">return</text>
+                <text x="86" y="85.5" fill="var(--svg-text)" fontSize="9.2" fontFamily="monospace" fontWeight="600">sorted(arr)</text>
+
+                {/* Execution Console Strip */}
+                <rect x="34" y="96" width="212" height="40" fill="var(--svg-panel-inner)" stroke="var(--svg-ink)" strokeWidth="1.2" />
+                {/* Smooth Execution Progress Sweep Along Console Top */}
+                <rect x="34" y="96" width="212" height="2" fill="var(--svg-coral)" className="anim-py-progress" />
+
+                <text x="42" y="111" fill="var(--svg-coral)" fontSize="8.8" fontFamily="monospace" fontWeight="700">&gt;&gt;&gt;</text>
+                <text x="64" y="111" fill="var(--svg-muted)" fillOpacity="0.35" fontSize="8.4" fontFamily="monospace" fontWeight="600">sort_nums([4, 1, 3])</text>
+                <g className="anim-py-cmd">
+                  <text x="64" y="111" fill="var(--svg-text)" fontSize="8.4" fontFamily="monospace" fontWeight="600">sort_nums([4, 1, 3])</text>
+                </g>
+                <line x1="175" y1="102" x2="175" y2="113" stroke="var(--svg-coral)" strokeWidth="1.8" className="anim-blink" />
+
+                {/* Resting Output Slots + Animated Result Reveal */}
+                <rect x="42" y="118" width="66" height="14" fill="var(--svg-panel)" stroke="var(--svg-stroke)" strokeWidth="1" />
+                <text x="75" y="128" textAnchor="middle" fill="var(--svg-muted)" fillOpacity="0.45" fontSize="7.6" fontFamily="monospace" fontWeight="600">[ ... ]</text>
+                <g className="anim-py-output">
+                  <rect x="42" y="118" width="66" height="14" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
+                  <text x="75" y="128" textAnchor="middle" fill="#FFFFFF" fontSize="8.2" fontFamily="monospace" fontWeight="700">[1, 3, 4]</text>
+                </g>
+
+                <rect x="174" y="118" width="64" height="14" fill="var(--svg-panel)" stroke="var(--svg-stroke)" strokeWidth="1" />
+                <text x="206" y="128" textAnchor="middle" fill="var(--svg-muted)" fillOpacity="0.5" fontSize="7.4" fontFamily="monospace" fontWeight="600">RUNNING</text>
+                <g className="anim-py-pass">
+                  <rect x="174" y="118" width="64" height="14" fill="var(--svg-panel)" stroke="var(--svg-green)" strokeWidth="1.1" />
+                  <text x="206" y="128" textAnchor="middle" fill="var(--svg-green)" fontSize="7.8" fontFamily="monospace" fontWeight="700">✔ PASS</text>
+                </g>
+
+                {/* Bottom Runtime Telemetry Strip */}
+                <g>
+                  <rect x="24" y="152" width="232" height="26" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
+                  <text x="34" y="168.5" fill="var(--svg-text)" fontSize="7.8" fontFamily="monospace" fontWeight="600">RUNTIME: 0.4ms</text>
+                  <rect x="190" y="156" width="58" height="18" fill="var(--svg-panel-inner)" stroke="var(--svg-ink)" strokeWidth="1" />
+                  <text x="219" y="168" textAnchor="middle" fill="var(--svg-muted)" fontSize="7.4" fontFamily="monospace" fontWeight="700">RUN PY</text>
+                  <g className="anim-py-status-badge">
+                    <rect x="190" y="156" width="58" height="18" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1" />
+                    <text x="219" y="168" textAnchor="middle" fill="#FFFFFF" fontSize="7.6" fontFamily="monospace" fontWeight="700">EXECUTED</text>
+                  </g>
+                </g>
               </svg>
             </MagneticPlatformCard>
 
@@ -420,21 +450,21 @@ function App() {
               description="Master algorithmic problem-solving from scratch and crack LeetCode-style interviews."
             >
               <svg viewBox="0 0 280 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full" aria-hidden="true">
-                <line x1="140" y1="36" x2="88" y2="78" stroke="var(--svg-ink)" strokeWidth="1.4" />
-                <line x1="140" y1="36" x2="192" y2="78" stroke="var(--svg-coral)" strokeWidth="2" strokeDasharray="4 3" />
-                <line x1="88" y1="78" x2="60" y2="120" stroke="var(--svg-ink)" strokeWidth="1.3" />
-                <line x1="88" y1="78" x2="116" y2="120" stroke="var(--svg-ink)" strokeWidth="1.3" />
-                <line x1="192" y1="78" x2="164" y2="120" stroke="var(--svg-coral)" strokeWidth="2" strokeDasharray="4 3" />
-                <line x1="192" y1="78" x2="220" y2="120" stroke="var(--svg-ink)" strokeWidth="1.3" />
+                {/* Base Tree Edges */}
+                <line x1="140" y1="36" x2="88" y2="78" stroke="var(--svg-stroke)" strokeWidth="1.4" />
+                <line x1="140" y1="36" x2="192" y2="78" stroke="var(--svg-stroke)" strokeWidth="1.4" />
+                <line x1="88" y1="78" x2="60" y2="120" stroke="var(--svg-stroke)" strokeWidth="1.3" />
+                <line x1="88" y1="78" x2="116" y2="120" stroke="var(--svg-stroke)" strokeWidth="1.3" />
+                <line x1="192" y1="78" x2="164" y2="120" stroke="var(--svg-stroke)" strokeWidth="1.3" />
+                <line x1="192" y1="78" x2="220" y2="120" stroke="var(--svg-stroke)" strokeWidth="1.3" />
 
-                <circle cx="140" cy="36" r="14" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.6" />
-                <text x="140" y="40" textAnchor="middle" fill="var(--svg-text)" fontSize="10.5" fontFamily="Inter" fontWeight="700">8</text>
+                {/* Sequential Illuminated Traversal Edges */}
+                <line x1="140" y1="36" x2="192" y2="78" stroke="var(--svg-blue)" strokeWidth="2.4" className="anim-dsa-edge-1" />
+                <line x1="192" y1="78" x2="164" y2="120" stroke="var(--svg-coral)" strokeWidth="2.4" className="anim-dsa-edge-2" />
 
+                {/* Inactive Sibling Leaves */}
                 <circle cx="88" cy="78" r="12" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
                 <text x="88" y="82" textAnchor="middle" fill="var(--svg-text)" fontSize="9.5" fontFamily="Inter" fontWeight="600">4</text>
-
-                <circle cx="192" cy="78" r="12" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.6" />
-                <text x="192" y="82" textAnchor="middle" fill="#FFFFFF" fontSize="9.5" fontFamily="Inter" fontWeight="700">12</text>
 
                 <circle cx="60" cy="120" r="10.5" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
                 <text x="60" y="123.5" textAnchor="middle" fill="var(--svg-text)" fontSize="8.5" fontFamily="Inter" fontWeight="600">2</text>
@@ -442,28 +472,44 @@ function App() {
                 <circle cx="116" cy="120" r="10.5" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
                 <text x="116" y="123.5" textAnchor="middle" fill="var(--svg-text)" fontSize="8.5" fontFamily="Inter" fontWeight="600">6</text>
 
-                <circle cx="164" cy="120" r="12.5" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1.6" />
-                <circle cx="164" cy="120" r="17" stroke="var(--svg-coral)" strokeWidth="1.4" fill="none" className="anim-match-ripple" />
-                <text x="164" y="124" textAnchor="middle" fill="#FFFFFF" fontSize="9.5" fontFamily="Inter" fontWeight="700">10</text>
-
                 <circle cx="220" cy="120" r="10.5" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
                 <text x="220" y="123.5" textAnchor="middle" fill="var(--svg-text)" fontSize="8.5" fontFamily="Inter" fontWeight="600">14</text>
 
-                <g className="anim-tree-search">
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="var(--svg-blue)" strokeWidth="2" strokeDasharray="3 2" />
-                  <circle cx="0" cy="0" r="3" fill="var(--svg-blue)" />
+                {/* Step 1 Node: Root 8 (Resting + Sequential Highlight) */}
+                <circle cx="140" cy="36" r="14" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                <text x="140" y="40" textAnchor="middle" fill="var(--svg-text)" fontSize="10.5" fontFamily="Inter" fontWeight="700">8</text>
+                <g className="anim-dsa-node-1">
+                  <circle cx="140" cy="36" r="18" fill="none" stroke="var(--svg-blue)" strokeWidth="1.6" strokeOpacity="0.45" />
+                  <circle cx="140" cy="36" r="14" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                  <text x="140" y="40" textAnchor="middle" fill="#FFFFFF" fontSize="10.5" fontFamily="Inter" fontWeight="700">8</text>
                 </g>
 
+                {/* Step 2 Node: 12 (Resting + Sequential Highlight) */}
+                <circle cx="192" cy="78" r="12" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                <text x="192" y="82" textAnchor="middle" fill="var(--svg-text)" fontSize="9.5" fontFamily="Inter" fontWeight="700">12</text>
+                <g className="anim-dsa-node-2">
+                  <circle cx="192" cy="78" r="16" fill="none" stroke="var(--svg-blue)" strokeWidth="1.6" strokeOpacity="0.45" />
+                  <circle cx="192" cy="78" r="12" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                  <text x="192" y="82" textAnchor="middle" fill="#FFFFFF" fontSize="9.5" fontFamily="Inter" fontWeight="700">12</text>
+                </g>
+
+                {/* Step 3 Node: Target 10 (Resting + Coral Match Highlight + Ripple) */}
+                <circle cx="164" cy="120" r="12.5" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                <text x="164" y="124" textAnchor="middle" fill="var(--svg-text)" fontSize="9.5" fontFamily="Inter" fontWeight="700">10</text>
+                <g className="anim-dsa-node-3">
+                  <circle cx="164" cy="120" r="17" stroke="var(--svg-coral)" strokeWidth="1.5" fill="none" className="anim-dsa-ripple" />
+                  <circle cx="164" cy="120" r="12.5" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1.6" />
+                  <text x="164" y="124" textAnchor="middle" fill="#FFFFFF" fontSize="9.5" fontFamily="Inter" fontWeight="700">10</text>
+                </g>
+
+                {/* Bottom Complexity Strip */}
                 <g>
-                  <rect x="26" y="150" width="228" height="26" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
-                  <text x="36" y="166.5" fill="var(--svg-text)" fontSize="8" fontFamily="monospace" fontWeight="600">TARGET: 10</text>
-                  <text x="142" y="166.5" fill="var(--svg-green)" fontSize="8" fontFamily="monospace" fontWeight="700">FOUND</text>
-                  <rect x="192" y="154" width="56" height="18" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
-                  <text x="220" y="166" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontFamily="monospace" fontWeight="700">O(log N)</text>
+                  <rect x="26" y="152" width="228" height="26" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
+                  <text x="36" y="168.5" fill="var(--svg-text)" fontSize="8" fontFamily="monospace" fontWeight="600">TARGET: 10</text>
+                  <text x="138" y="168.5" fill="var(--svg-green)" fontSize="8" fontFamily="monospace" fontWeight="700" className="anim-dsa-found">FOUND</text>
+                  <rect x="192" y="156" width="56" height="18" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
+                  <text x="220" y="168" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontFamily="monospace" fontWeight="700">O(log N)</text>
                 </g>
-
-                <circle cx="32" cy="40" r="4.5" fill="var(--svg-coral)" className="anim-float" />
-                <circle cx="248" cy="54" r="4" fill="var(--svg-blue)" className="anim-float-delay" />
               </svg>
             </MagneticPlatformCard>
 
@@ -482,57 +528,84 @@ function App() {
               description="Build production-ready web apps using React, APIs, and modern deployment."
             >
               <svg viewBox="0 0 280 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full" aria-hidden="true">
-                <rect x="18" y="26" width="84" height="98" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                <line x1="18" y1="42" x2="102" y2="42" stroke="var(--svg-ink)" strokeWidth="1.2" />
-                <circle cx="27" cy="34" r="2.2" fill="var(--svg-coral)" />
-                <circle cx="35" cy="34" r="2.2" fill="var(--svg-blue)" />
-                <text x="45" y="36.5" fill="var(--svg-text)" fontSize="7" fontFamily="monospace" fontWeight="700">React UI</text>
+                {/* Base Wires */}
+                <line x1="102" y1="74" x2="122" y2="74" stroke="var(--svg-stroke)" strokeWidth="1.6" />
+                <line x1="184" y1="74" x2="210" y2="74" stroke="var(--svg-stroke)" strokeWidth="1.6" />
 
-                <rect x="25" y="49" width="70" height="16" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
-                <rect x="25" y="70" width="52" height="4" fill="var(--svg-ink)" fillOpacity="0.25" />
+                {/* Active Highlight Wires */}
+                <line x1="102" y1="74" x2="122" y2="74" stroke="var(--svg-coral)" strokeWidth="2.4" className="anim-fs-wire-1" />
+                <line x1="184" y1="74" x2="210" y2="74" stroke="var(--svg-blue)" strokeWidth="2.4" className="anim-fs-wire-2" />
 
-                <rect x="25" y="80" width="40" height="14" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1" />
-                <text x="45" y="90" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">POST</text>
+                {/* Node 1: Client Browser (React UI) */}
+                <g className="anim-fs-node-1">
+                  <rect x="18" y="26" width="84" height="98" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
+                  <rect x="18" y="26" width="84" height="98" rx="0" fill="none" stroke="var(--svg-coral)" strokeWidth="2" className="anim-fs-ring-1" />
+                  <line x1="18" y1="42" x2="102" y2="42" stroke="var(--svg-ink)" strokeWidth="1.2" />
+                  <circle cx="27" cy="34" r="2.2" fill="var(--svg-coral)" />
+                  <circle cx="35" cy="34" r="2.2" fill="var(--svg-blue)" />
+                  <text x="45" y="36.5" fill="var(--svg-text)" fontSize="7" fontFamily="monospace" fontWeight="700">React UI</text>
 
-                <g className="anim-float">
-                  <polygon points="58,88 67,97 62,98 65,105 61,106 58,99 53,102" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.2" />
+                  <rect x="25" y="49" width="70" height="16" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
+                  <rect x="25" y="70" width="52" height="4" fill="var(--svg-ink)" fillOpacity="0.25" />
+
+                  <rect x="25" y="80" width="40" height="14" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1" className="anim-fs-btn-pulse" />
+                  <text x="45" y="90" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">POST</text>
+
+                  <rect x="25" y="102" width="70" height="15" fill="var(--svg-panel-inner)" stroke="var(--svg-stroke)" strokeWidth="1" />
+                  <text x="60" y="112" textAnchor="middle" fill="var(--svg-muted)" fillOpacity="0.65" fontSize="6.6" fontFamily="monospace" fontWeight="600">WAITING</text>
+                  <g className="anim-fs-ok">
+                    <rect x="25" y="102" width="70" height="15" fill="var(--svg-panel-inner)" stroke="var(--svg-green)" strokeWidth="1.3" />
+                    <text x="60" y="112" textAnchor="middle" fill="var(--svg-green)" fontSize="6.8" fontFamily="monospace" fontWeight="700">✔ 200 OK</text>
+                  </g>
                 </g>
 
-                <rect x="25" y="102" width="70" height="15" fill="var(--svg-panel-inner)" stroke="var(--svg-ink)" strokeWidth="1" />
-                <text x="60" y="112" textAnchor="middle" fill="var(--svg-green)" fontSize="6.8" fontFamily="monospace" fontWeight="700">✔ 200 OK</text>
+                {/* Node 2: API Server Hub (Express) */}
+                <g className="anim-fs-node-2">
+                  <rect x="122" y="40" width="62" height="68" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
+                  <rect x="122" y="40" width="62" height="68" rx="0" fill="var(--svg-blue)" className="anim-fs-ring-2" />
+                  <rect x="122" y="40" width="62" height="16" fill="var(--svg-ink)" />
+                  <text x="153" y="51" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">API HUB</text>
+                  <text x="153" y="70" textAnchor="middle" fill="var(--svg-text)" fontSize="7" fontFamily="monospace" fontWeight="700">Express</text>
+                  <text x="153" y="84" textAnchor="middle" fill="var(--svg-muted)" fontSize="6.5" fontFamily="monospace">REST · JWT</text>
+                  <g className="anim-fs-ring-2">
+                    <text x="153" y="70" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">Express</text>
+                    <text x="153" y="84" textAnchor="middle" fill="#FFFFFF" fillOpacity="0.92" fontSize="6.5" fontFamily="monospace">REST · JWT</text>
+                    <rect x="122" y="40" width="62" height="68" rx="0" fill="none" stroke="var(--svg-coral)" strokeWidth="2" />
+                  </g>
+                  <circle cx="153" cy="98" r="3.5" fill="var(--svg-coral)" className="anim-fs-led" />
+                </g>
 
-                <line x1="102" y1="74" x2="122" y2="74" stroke="var(--svg-ink)" strokeWidth="1.5" />
-
-                <rect x="122" y="40" width="62" height="68" rx="0" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                <rect x="122" y="40" width="62" height="16" fill="var(--svg-ink)" />
-                <text x="153" y="51" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">API HUB</text>
-                <text x="153" y="70" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontFamily="monospace" fontWeight="700">Express</text>
-                <text x="153" y="84" textAnchor="middle" fill="#FFFFFF" fillOpacity="0.9" fontSize="6.5" fontFamily="monospace">REST · JWT</text>
-                <circle cx="153" cy="98" r="3.5" fill="#FFFFFF" className="anim-blink" />
-
-                <line x1="184" y1="74" x2="210" y2="74" stroke="var(--svg-ink)" strokeWidth="1.5" />
-
-                <g className="anim-float-delay">
-                  <rect x="210" y="50" width="46" height="42" fill="var(--svg-blue)" stroke="none" />
+                {/* Node 3: Database Cylinder (MongoDB) */}
+                <g className="anim-fs-node-3">
+                  {/* Resting State */}
+                  <rect x="210" y="50" width="46" height="42" fill="var(--svg-panel)" stroke="none" />
                   <ellipse cx="233" cy="50" rx="23" ry="7" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
                   <line x1="210" y1="50" x2="210" y2="92" stroke="var(--svg-ink)" strokeWidth="1.5" />
                   <line x1="256" y1="50" x2="256" y2="92" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                  <path d="M 210 92 A 23 7 0 0 0 256 92" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1.5" />
-                  <text x="233" y="76" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontFamily="monospace" fontWeight="700">DB</text>
+                  <path d="M 210 92 A 23 7 0 0 0 256 92" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.5" />
+                  <text x="233" y="76" textAnchor="middle" fill="var(--svg-text)" fontSize="8" fontFamily="monospace" fontWeight="700">DB</text>
+
+                  {/* Active Highlight Overlay */}
+                  <g className="anim-fs-ring-3">
+                    <rect x="210" y="50" width="46" height="42" fill="var(--svg-blue)" stroke="none" />
+                    <ellipse cx="233" cy="50" rx="23" ry="7" fill="var(--svg-panel)" stroke="var(--svg-coral)" strokeWidth="1.8" />
+                    <line x1="210" y1="50" x2="210" y2="92" stroke="var(--svg-coral)" strokeWidth="1.8" />
+                    <line x1="256" y1="50" x2="256" y2="92" stroke="var(--svg-coral)" strokeWidth="1.8" />
+                    <path d="M 210 92 A 23 7 0 0 0 256 92" fill="var(--svg-blue)" stroke="var(--svg-coral)" strokeWidth="1.8" />
+                    <text x="233" y="76" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontFamily="monospace" fontWeight="700">DB</text>
+                  </g>
                 </g>
 
-                <g className="anim-req-flow">
-                  <circle cx="102" cy="74" r="4" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1" />
-                </g>
-                <g className="anim-db-flow">
-                  <circle cx="184" cy="74" r="3.5" fill="var(--svg-coral)" stroke="var(--svg-ink)" strokeWidth="1" />
-                </g>
-
+                {/* Bottom Pipeline Telemetry Bar */}
                 <g>
-                  <rect x="18" y="150" width="244" height="26" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
-                  <text x="28" y="166.5" fill="var(--svg-text)" fontSize="7.5" fontFamily="monospace" fontWeight="600">React → Express → MongoDB</text>
-                  <rect x="216" y="154" width="38" height="18" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
-                  <text x="235" y="166" textAnchor="middle" fill="#FFFFFF" fontSize="7.5" fontFamily="monospace" fontWeight="700">LIVE</text>
+                  <rect x="18" y="152" width="244" height="26" rx="0" fill="var(--svg-panel)" stroke="var(--svg-ink)" strokeWidth="1.4" />
+                  <text x="28" y="168.5" fill="var(--svg-text)" fontSize="7.5" fontFamily="monospace" fontWeight="600">React → Express → MongoDB</text>
+                  <rect x="216" y="156" width="38" height="18" fill="var(--svg-panel-inner)" stroke="var(--svg-ink)" strokeWidth="1" />
+                  <text x="235" y="168" textAnchor="middle" fill="var(--svg-muted)" fontSize="7.5" fontFamily="monospace" fontWeight="700">SYNC</text>
+                  <g className="anim-fs-live-pill">
+                    <rect x="216" y="156" width="38" height="18" fill="var(--svg-blue)" stroke="var(--svg-ink)" strokeWidth="1" />
+                    <text x="235" y="168" textAnchor="middle" fill="#FFFFFF" fontSize="7.5" fontFamily="monospace" fontWeight="700">LIVE</text>
+                  </g>
                 </g>
               </svg>
             </MagneticPlatformCard>

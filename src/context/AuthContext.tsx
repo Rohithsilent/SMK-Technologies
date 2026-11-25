@@ -294,7 +294,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         targetTier?: string
       },
     ) => {
-      if (!auth.currentUser) return
+      if (!auth || !db || !auth.currentUser) return
       const transcriptPath = `public_transcripts/${currentProfile.handle}`
       try {
         await setDoc(doc(db, "public_transcripts", currentProfile.handle), {
@@ -319,6 +319,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Listen to Firebase Auth state & ensure user profile exists
   useEffect(() => {
+    if (!auth || !db) {
+      setAuthReady(true)
+      return
+    }
+    const firestore = db
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser)
       if (!firebaseUser) {
@@ -333,7 +338,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       try {
-        const userRef = doc(db, "users", firebaseUser.uid)
+        const userRef = doc(firestore, "users", firebaseUser.uid)
         const snap = await getDoc(userRef)
         let activeProfile: UserProfile
 
@@ -392,7 +397,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           try {
             const pending = JSON.parse(pendingRaw) as DiagnosticResult
             const attemptId = makeDocId("diag")
-            await setDoc(doc(db, "diagnostic_attempts", attemptId), {
+            await setDoc(doc(firestore, "diagnostic_attempts", attemptId), {
               userId: firebaseUser.uid,
               btechYear: pending.btechYear,
               targetTier: pending.targetTier.slice(0, 80),
@@ -421,7 +426,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Subscribe to user's Firestore collections once authenticated
   useEffect(() => {
-    if (!authReady || !user) return
+    if (!authReady || !user || !db) return
 
     const diagQuery = query(collection(db, "diagnostic_attempts"), where("userId", "==", user.uid))
     const unsubDiag = onSnapshot(
@@ -550,7 +555,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Admin/Mentor subscriptions for colleges & all capstone submissions
   useEffect(() => {
-    if (!authReady || !user || !isAdmin) return
+    if (!authReady || !user || !isAdmin || !db) return
 
     const unsubCol = onSnapshot(
       collection(db, "colleges"),
@@ -604,6 +609,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithGoogle = useCallback(async () => {
     setAuthError("")
+    if (!auth) {
+      setAuthError("Firebase authentication is not configured for this deployment yet. Add VITE_FIREBASE_* environment variables in Vercel Project Settings.")
+      return
+    }
     try {
       await signInWithPopup(auth, googleProvider)
     } catch (err) {
@@ -614,12 +623,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(async () => {
     setAuthError("")
+    if (!auth) return
     await signOut(auth)
   }, [])
 
   const saveDiagnosticAttempt = useCallback(
     async (result: DiagnosticResult) => {
-      if (!user) {
+      if (!user || !db) {
         localStorage.setItem(PENDING_DIAGNOSTIC_KEY, JSON.stringify(result))
         return
       }
@@ -651,7 +661,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       topicId: string,
       topicTitle: string,
     ) => {
-      if (!user) {
+      if (!user || !db) {
         setMasteryRecords((prev) => {
           if (prev.some((m) => m.topicId === topicId)) return prev
           const next: PersistedMastery[] = [
@@ -690,7 +700,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const recordOaSubmission = useCallback(
     async (payload: Omit<PersistedOaSubmission, "id" | "userId">) => {
       const subId = makeDocId("oasub")
-      if (!user) {
+      if (!user || !db) {
         setOaSubmissions((prev) => [{ id: subId, userId: "guest", ...payload }, ...prev])
         return
       }
@@ -722,7 +732,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       liveUrl: string
     }) => {
       const projId = makeDocId("proj")
-      if (!user || !profile) {
+      if (!user || !profile || !db) {
         setProjectSubmissions((prev) => [
           {
             id: projId,
@@ -774,7 +784,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { ok: false, message: "Enter a valid invite code (e.g. SMK-CSE-2026)." }
       }
       let matched = cohorts.find((c) => c.inviteCode.toUpperCase() === code)
-      if (!matched && user) {
+      if (!matched && user && db) {
         try {
           const snap = await getDocs(
             query(collection(db, "cohorts"), where("active", "==", true), where("inviteCode", "==", code)),
@@ -790,7 +800,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!matched) {
         return { ok: false, message: `Invite code "${code}" was not found among active cohorts.` }
       }
-      if (user && profile) {
+      if (user && profile && db) {
         try {
           await updateDoc(doc(db, "users", user.uid), {
             collegeId: matched.collegeId,
@@ -817,7 +827,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateBtechYear = useCallback(
     async (year: BtechYear) => {
-      if (!user || !profile) return
+      if (!user || !profile || !db) return
       try {
         await updateDoc(doc(db, "users", user.uid), {
           btechYear: year,
@@ -840,6 +850,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       note: string
     }): Promise<{ persisted: boolean }> => {
       const enquiryId = makeDocId("enq")
+      if (!db) return { persisted: false }
       try {
         await setDoc(doc(db, "campus_enquiries", enquiryId), {
           name: payload.name.trim().slice(0, 100),
@@ -861,7 +872,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const createCollege = useCallback(
     async (name: string, city: string) => {
       const id = makeDocId("col")
-      if (!user || !isAdmin) {
+      if (!user || !isAdmin || !db) {
         setColleges((prev) => [{ id, name: name.trim(), city: city.trim() }, ...prev])
         return
       }
@@ -889,7 +900,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }) => {
       const id = makeDocId("coh")
       const cleanCode = payload.inviteCode.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "")
-      if (!user || !isAdmin) {
+      if (!user || !isAdmin || !db) {
         setCohorts((prev) => [
           {
             id,
@@ -930,7 +941,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       cohortId: string
     }) => {
       const id = makeDocId("oa")
-      if (!user || !isAdmin) {
+      if (!user || !isAdmin || !db) {
         setScheduledOas((prev) => [{ id, ...payload, published: true }, ...prev])
         return
       }
@@ -960,7 +971,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       rubricDeployment: number
       mentorNotes: string
     }) => {
-      if (!user || !isAdmin) {
+      if (!user || !isAdmin || !db) {
         setAllProjectsForReview((prev) =>
           prev.map((p) =>
             p.id === payload.projectId
