@@ -1,11 +1,10 @@
 import { useTheme } from "@/context/ThemeContext"
 
 interface ThemeToggleProps {
-  compact?: boolean
   className?: string
 }
 
-export default function ThemeToggle({ compact = false, className = "" }: ThemeToggleProps) {
+export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
   const { theme, isTransitioning, toggleTheme } = useTheme()
   const isLight = theme === "light"
 
@@ -13,78 +12,94 @@ export default function ThemeToggle({ compact = false, className = "" }: ThemeTo
     <button
       type="button"
       onClick={toggleTheme}
-      disabled={isTransitioning}
-      aria-label={
-        isLight
-          ? "Switch to Night Mode"
-          : "Switch to Day Mode"
-      }
+      role="switch"
+      aria-checked={isLight}
+      aria-label={isLight ? "Switch to dark night mode" : "Switch to light day mode"}
       title={isLight ? "Switch to Night Mode" : "Switch to Day Mode"}
-      className={`group relative flex items-center justify-between rounded-full p-1 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 active:scale-95 disabled:pointer-events-none ${
+      className={`theme-switch group relative inline-flex h-9 w-[68px] shrink-0 items-center justify-between overflow-hidden rounded-[4px] p-[3px] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97] ${
         isLight
-          ? "bg-black/[0.06] border border-black/10 hover:border-black/20"
-          : "bg-white/[0.08] border border-white/15 hover:border-white/25"
-      } ${compact ? "w-14 h-8" : "w-16 h-8.5"} ${className}`}
+          ? "border border-[#00063D]/25 bg-[#F0F6FF] hover:border-[#00063D]/55"
+          : "border border-indigo-200/25 bg-[#070D36]/85 hover:border-indigo-200/55"
+      } ${isTransitioning ? "is-switching" : ""} ${className}`}
     >
-      {/* Sliding Pill Indicator with spring curve */}
+      {/* Horizon Energy Sweep on Toggle */}
       <span
-        className={`pointer-events-none flex size-6.5 items-center justify-center rounded-full shadow-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className="theme-switch-sweep pointer-events-none absolute inset-x-0 bottom-0 h-[2px]"
+        aria-hidden="true"
+      />
+
+      {/* Sliding 3px Architectural Shuttle */}
+      <span
+        aria-hidden="true"
+        className={`theme-switch-shuttle pointer-events-none absolute left-[3px] top-[3px] bottom-[3px] w-[29px] rounded-[3px] ${
           isLight
-            ? "translate-x-7 sm:translate-x-7.5 bg-white text-[#00063D] shadow-[0_2px_8px_rgba(0,6,61,0.15)]"
-            : "translate-x-0.5 bg-[#00063D]/90 text-amber-200 border border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
+            ? "translate-x-[31px] bg-[#00063D] shadow-[0_2px_8px_rgba(0,6,61,0.22)]"
+            : "translate-x-0 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
+        }`}
+      />
+
+      {/* Left Slot: Night Moon */}
+      <span
+        aria-hidden="true"
+        className={`relative z-10 flex h-full w-[29px] items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          !isLight
+            ? "scale-100 text-[#00063D]"
+            : "scale-90 text-[#00063D]/45 group-hover:text-[#00063D]/80"
         }`}
       >
-        {isLight ? (
-          /* Apple-style minimalist Sun icon */
-          <svg
-            className="size-3.5 transition-transform duration-500 group-hover:rotate-45"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2" />
-            <path d="M12 20v2" />
-            <path d="m4.93 4.93 1.41 1.41" />
-            <path d="m17.66 17.66 1.41 1.41" />
-            <path d="M2 12h2" />
-            <path d="M20 12h2" />
-            <path d="m6.34 17.66-1.41 1.41" />
-            <path d="m19.07 4.93-1.41 1.41" />
-          </svg>
-        ) : (
-          /* Minimalist Moon icon */
-          <svg
-            className="size-3.5 text-amber-200/90 transition-transform duration-500 group-hover:-rotate-12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
+        <svg
+          className={`size-3.5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            !isLight ? "rotate-0" : "-rotate-12"
+          }`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path
+            d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
+            fill="currentColor"
+            fillOpacity={!isLight ? "0.18" : "0"}
+          />
+          <path
+            d="M19 3v3M17.5 4.5h3"
+            stroke={!isLight ? "#FA4028" : "currentColor"}
             strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="currentColor" fillOpacity="0.25" />
-          </svg>
-        )}
+          />
+        </svg>
       </span>
 
-      {/* Subtle background icons for the inactive side */}
-      <span className="pointer-events-none absolute left-2 text-[10px] text-muted-foreground/60">
-        {!isLight && (
-          <svg className="size-3 text-muted-foreground/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="4" />
-          </svg>
-        )}
-      </span>
-      <span className="pointer-events-none absolute right-2 text-[10px] text-muted-foreground/60">
-        {isLight && (
-          <svg className="size-3 text-muted-foreground/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-          </svg>
-        )}
+      {/* Right Slot: Day Sun */}
+      <span
+        aria-hidden="true"
+        className={`relative z-10 flex h-full w-[29px] items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          isLight
+            ? "scale-100 text-white"
+            : "scale-90 text-indigo-200/55 group-hover:text-white/85"
+        }`}
+      >
+        <svg
+          className={`size-3.5 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isLight ? "rotate-0 group-hover:rotate-45" : "-rotate-45 group-hover:rotate-0"
+          }`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+            fill="currentColor"
+            fillOpacity={isLight ? "0.22" : "0"}
+          />
+          <path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55" />
+        </svg>
       </span>
     </button>
   )

@@ -1,9 +1,10 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
-  useCallback,
   type ReactNode,
 } from "react"
 
@@ -19,7 +20,7 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
 const STORAGE_KEY = "smk-theme-preference"
-const TRANSITION_DURATION = 1000 // 1s Apple-grade cross-dissolve
+const TRANSITION_DURATION = 480
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
@@ -30,6 +31,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   })
 
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const transitionTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
@@ -42,6 +44,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [theme])
 
+  useEffect(() => {
+    return () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current)
+      }
+    }
+  }, [])
+
   const toggleTheme = useCallback(() => {
     if (isTransitioning) return
 
@@ -50,11 +60,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setThemeState(nextTheme)
     localStorage.setItem(STORAGE_KEY, nextTheme)
 
-    const timer = setTimeout(() => {
-      setIsTransitioning(false)
-    }, TRANSITION_DURATION)
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current)
+    }
 
-    return () => clearTimeout(timer)
+    transitionTimerRef.current = window.setTimeout(() => {
+      setIsTransitioning(false)
+      transitionTimerRef.current = null
+    }, TRANSITION_DURATION)
   }, [theme, isTransitioning])
 
   const setTheme = useCallback((newTheme: Theme) => {
