@@ -1,0 +1,214 @@
+{
+  "entities": {
+    "College": {
+      "title": "College",
+      "description": "Partner engineering institution registered by mentors or admins.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "city": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "createdBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "city", "createdBy", "createdAt"]
+    },
+    "Cohort": {
+      "title": "Cohort",
+      "description": "Campus training batch with an invite code for student onboarding.",
+      "type": "object",
+      "properties": {
+        "collegeId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "collegeName": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "targetYear": { "type": "string", "enum": ["2nd Year", "3rd Year", "Final Year"] },
+        "inviteCode": { "type": "string", "minLength": 4, "maxLength": 32, "pattern": "^[A-Z0-9\\-]+$" },
+        "active": { "type": "boolean" },
+        "createdBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["collegeId", "collegeName", "name", "targetYear", "inviteCode", "active", "createdBy", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private authenticated user profile containing PII and role assignment.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "fullName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "role": { "type": "string", "enum": ["student", "tpo", "mentor", "admin"] },
+        "collegeId": { "type": "string", "maxLength": 128 },
+        "cohortId": { "type": "string", "maxLength": 128 },
+        "inviteCode": { "type": "string", "maxLength": 32 },
+        "handle": { "type": "string", "minLength": 2, "maxLength": 48, "pattern": "^[a-z0-9\\-]+$" },
+        "btechYear": { "type": "string", "enum": ["2nd Year", "3rd Year", "Final Year"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fullName", "email", "role", "handle", "btechYear", "createdAt", "updatedAt"]
+    },
+    "PublicTranscript": {
+      "title": "PublicTranscript",
+      "description": "PII-free public SMK Verified Skill Transcript accessible at /verify/:handle.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "handle": { "type": "string", "minLength": 2, "maxLength": 48, "pattern": "^[a-z0-9\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "btechYear": { "type": "string", "enum": ["2nd Year", "3rd Year", "Final Year"] },
+        "targetTier": { "type": "string", "maxLength": 80 },
+        "verifiedTopicsCount": { "type": "number" },
+        "oaPassedCount": { "type": "number" },
+        "oaBestRatio": { "type": "number" },
+        "diagnosticOverall": { "type": "number" },
+        "verifiedProjectsCount": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "handle", "displayName", "btechYear", "targetTier", "verifiedTopicsCount", "oaPassedCount", "oaBestRatio", "diagnosticOverall", "verifiedProjectsCount", "updatedAt"]
+    },
+    "DiagnosticAttempt": {
+      "title": "DiagnosticAttempt",
+      "description": "Persisted 5-minute placement readiness diagnostic result.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "btechYear": { "type": "string", "enum": ["2nd Year", "3rd Year", "Final Year"] },
+        "targetTier": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "overallScore": { "type": "number" },
+        "problemSolving": { "type": "number" },
+        "complexityIntuition": { "type": "number" },
+        "implementationSpeed": { "type": "number" },
+        "stackReadiness": { "type": "number" },
+        "recommendedSlug": { "type": "string", "enum": ["python", "dsa", "web-development", "machine-learning"] },
+        "recommendedStageId": { "type": "string", "minLength": 2, "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "btechYear", "targetTier", "overallScore", "problemSolving", "complexityIntuition", "implementationSpeed", "stackReadiness", "recommendedSlug", "recommendedStageId", "createdAt"]
+    },
+    "TopicMastery": {
+      "title": "TopicMastery",
+      "description": "Verified roadmap topic completion unlocked by passing a micro-challenge.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "programSlug": { "type": "string", "enum": ["python", "dsa", "web-development", "machine-learning"] },
+        "topicId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "topicTitle": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "status": { "type": "string", "enum": ["verified"] },
+        "verifiedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "programSlug", "topicId", "topicTitle", "status", "verifiedAt"]
+    },
+    "OaAssessment": {
+      "title": "OaAssessment",
+      "description": "Timed online assessment scheduled for campus cohorts or open tracks.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 3, "maxLength": 140 },
+        "tier": { "type": "string", "enum": ["Service / Core IT", "Product Engineering"] },
+        "durationMinutes": { "type": "number" },
+        "cohortId": { "type": "string", "maxLength": 128 },
+        "published": { "type": "boolean" },
+        "createdBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "tier", "durationMinutes", "cohortId", "published", "createdBy", "createdAt"]
+    },
+    "OaSubmission": {
+      "title": "OaSubmission",
+      "description": "Student code submission and test-suite telemetry for a timed OA problem.",
+      "type": "object",
+      "properties": {
+        "assessmentId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "problemId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "language": { "type": "string", "enum": ["python", "cpp", "java", "javascript"] },
+        "sourceCode": { "type": "string", "minLength": 1, "maxLength": 16000 },
+        "passedCount": { "type": "number" },
+        "totalCount": { "type": "number" },
+        "runtimeMs": { "type": "number" },
+        "status": { "type": "string", "enum": ["passed", "partial", "failed"] },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["assessmentId", "problemId", "userId", "language", "sourceCode", "passedCount", "totalCount", "runtimeMs", "status", "submittedAt"]
+    },
+    "ProjectSubmission": {
+      "title": "ProjectSubmission",
+      "description": "Full-Stack or AI capstone submission with mentor 3-part rubric verification.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "studentName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "studentHandle": { "type": "string", "minLength": 2, "maxLength": 48, "pattern": "^[a-z0-9\\-]+$" },
+        "programSlug": { "type": "string", "enum": ["web-development", "machine-learning"] },
+        "title": { "type": "string", "minLength": 3, "maxLength": 120 },
+        "repoUrl": { "type": "string", "minLength": 10, "maxLength": 300 },
+        "liveUrl": { "type": "string", "minLength": 10, "maxLength": 300 },
+        "status": { "type": "string", "enum": ["pending", "verified", "changes_requested"] },
+        "rubricArchitecture": { "type": "number" },
+        "rubricEdgeCases": { "type": "number" },
+        "rubricDeployment": { "type": "number" },
+        "mentorNotes": { "type": "string", "maxLength": 1000 },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "reviewedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "studentName", "studentHandle", "programSlug", "title", "repoUrl", "liveUrl", "status", "rubricArchitecture", "rubricEdgeCases", "rubricDeployment", "mentorNotes", "submittedAt"]
+    },
+    "CampusEnquiry": {
+      "title": "CampusEnquiry",
+      "description": "Public campus or student enquiry submitted via the #contact form.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "interest": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "batchYear": { "type": "string", "maxLength": 40 },
+        "note": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "interest", "batchYear", "note", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/colleges/{collegeId}": {
+      "schema": { "$ref": "#/entities/College" },
+      "description": "Engineering institutions managed by admins/mentors."
+    },
+    "/cohorts/{cohortId}": {
+      "schema": { "$ref": "#/entities/Cohort" },
+      "description": "Active campus cohorts and batch invite codes."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Owner-isolated private user profiles with PII and RBAC role."
+    },
+    "/public_transcripts/{handle}": {
+      "schema": { "$ref": "#/entities/PublicTranscript" },
+      "description": "PII-free public verified skill transcripts by student handle."
+    },
+    "/diagnostic_attempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/DiagnosticAttempt" },
+      "description": "Student placement diagnostic attempts."
+    },
+    "/topic_mastery/{masteryId}": {
+      "schema": { "$ref": "#/entities/TopicMastery" },
+      "description": "Verified roadmap topic completions."
+    },
+    "/oa_assessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/OaAssessment" },
+      "description": "Timed OA assessments published to students."
+    },
+    "/oa_submissions/{submissionId}": {
+      "schema": { "$ref": "#/entities/OaSubmission" },
+      "description": "Student OA code submissions and test telemetry."
+    },
+    "/project_submissions/{projectId}": {
+      "schema": { "$ref": "#/entities/ProjectSubmission" },
+      "description": "Capstone project submissions and mentor rubric grades."
+    },
+    "/campus_enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/CampusEnquiry" },
+      "description": "Inbound campus and student contact enquiries."
+    }
+  }
+}

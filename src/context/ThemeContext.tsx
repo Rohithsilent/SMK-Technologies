@@ -22,6 +22,29 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 const STORAGE_KEY = "smk-theme-preference"
 const TRANSITION_DURATION = 480
 
+function applyThemeToDocument(theme: Theme) {
+  const root = document.documentElement
+  root.setAttribute("data-theme", theme)
+  root.style.colorScheme = theme
+  if (theme === "light") {
+    root.classList.add("light")
+    root.classList.remove("dark")
+    document.body.setAttribute("data-theme", "light")
+    document.body.style.backgroundColor = "#FFFFFF"
+    document.body.style.color = "#00063D"
+  } else {
+    root.classList.add("dark")
+    root.classList.remove("light")
+    document.body.setAttribute("data-theme", "dark")
+    document.body.style.backgroundColor = "#020624"
+    document.body.style.color = "#F8FAFC"
+  }
+  const metaTheme = document.querySelector('meta[name="theme-color"]')
+  if (metaTheme) {
+    metaTheme.setAttribute("content", theme === "light" ? "#FFFFFF" : "#020624")
+  }
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === "undefined") return "dark"
@@ -34,14 +57,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const transitionTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme)
-    if (theme === "light") {
-      document.documentElement.classList.add("light")
-      document.documentElement.classList.remove("dark")
-    } else {
-      document.documentElement.classList.add("dark")
-      document.documentElement.classList.remove("light")
-    }
+    applyThemeToDocument(theme)
   }, [theme])
 
   useEffect(() => {

@@ -13,13 +13,17 @@ import {
   GitBranch,
   HelpCircle,
   Search,
+  ShieldCheck,
   Sparkles,
   Target,
   Wrench,
   X,
 } from "lucide-react"
+import InlineCodeText from "@/components/InlineCodeText"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/context/AuthContext"
 import { useFocusTrap } from "@/hooks/useMotion"
+import { getMicroChallengeForTopic } from "@/lib/microChallenges"
 import type {
   Program,
   RoadmapPracticeItem,
@@ -71,13 +75,16 @@ export default function RoadmapExplorer({
   onSelectProgram?: (slug: string) => void
   onNavigate?: (href: string) => void
 }) {
+  const { user, verifiedTopicIds, verifyTopicMastery, signInWithGoogle } = useAuth()
   const [selection, setSelection] = useState<Selection>(null)
   const [renderedSelection, setRenderedSelection] = useState<Selection>(null)
   const [drawerVisible, setDrawerVisible] = useState(false)
   const [query, setQuery] = useState("")
   const [activeStageId, setActiveStageId] = useState<string>(program.stages[0]?.id ?? "")
   const [hoveredStageId, setHoveredStageId] = useState<string | null>(null)
-  const [showSelfCheck, setShowSelfCheck] = useState(false)
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null)
+  const [checkSubmitted, setCheckSubmitted] = useState(false)
+  const [verifying, setVerifying] = useState(false)
 
   const drawerRef = useRef<HTMLElement>(null)
   const closeDrawerTimerRef = useRef<number | null>(null)
@@ -94,8 +101,17 @@ export default function RoadmapExplorer({
     setRenderedSelection(null)
     setDrawerVisible(false)
     setQuery("")
-    setShowSelfCheck(false)
+    setSelectedChoice(null)
+    setCheckSubmitted(false)
     setActiveStageId(program.stages[0]?.id ?? "")
+
+    const hashStage = decodeURIComponent(window.location.hash.replace(/^#/, ""))
+    if (hashStage && program.stages.some((s) => s.id === hashStage)) {
+      setActiveStageId(hashStage)
+      window.setTimeout(() => {
+        document.getElementById(hashStage)?.scrollIntoView({ behavior: "smooth", block: "center" })
+      }, 120)
+    }
   }, [program.slug, program.stages])
 
   // Smooth open/close transition for the inspector drawer
@@ -107,7 +123,8 @@ export default function RoadmapExplorer({
 
     if (selection) {
       setRenderedSelection(selection)
-      setShowSelfCheck(false)
+      setSelectedChoice(null)
+      setCheckSubmitted(false)
       const frameId = window.requestAnimationFrame(() => {
         setDrawerVisible(true)
       })
@@ -149,6 +166,10 @@ export default function RoadmapExplorer({
   }, [program])
 
   const totalTopics = flatTopics.length
+  const verifiedInTrackCount = useMemo(
+    () => flatTopics.filter((item) => verifiedTopicIds.has(item.topic.id)).length,
+    [flatTopics, verifiedTopicIds],
+  )
   const totalPractice = useMemo(
     () => program.stages.reduce((acc, s) => acc + s.practice.length, 0),
     [program],
@@ -262,6 +283,28 @@ export default function RoadmapExplorer({
     renderedSelection?.kind === "practice"
       ? activeStage?.practice[renderedSelection.practiceIndex] ?? null
       : null
+  const activeChallenge = useMemo(
+    () => (activeTopic ? getMicroChallengeForTopic(activeTopic) : null),
+    [activeTopic],
+  )
+  const isActiveTopicVerified = activeTopic ? verifiedTopicIds.has(activeTopic.id) : false
+
+  async function handleCheckMicroChallenge() {
+    if (!activeTopic || !activeChallenge || !selectedChoice) return
+    setCheckSubmitted(true)
+    if (selectedChoice === activeChallenge.correctId && !verifiedTopicIds.has(activeTopic.id)) {
+      setVerifying(true)
+      try {
+        await verifyTopicMastery(
+          program.slug as "python" | "dsa" | "web-development" | "machine-learning",
+          activeTopic.id,
+          activeTopic.title,
+        )
+      } finally {
+        setVerifying(false)
+      }
+    }
+  }
 
   const activeFlatIndex =
     renderedSelection?.kind === "topic"
@@ -316,9 +359,9 @@ export default function RoadmapExplorer({
               <span className="roadmap-legend-dot roadmap-legend-dot--practice" aria-hidden="true" />
               Practice / Build ({totalPractice})
             </span>
-            <span className="hidden items-center gap-1.5 text-[11px] text-muted-foreground/85 xl:inline-flex">
-              <Sparkles className="size-3.5 text-path-accent" aria-hidden="true" />
-              Click any node to inspect notes
+            <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-emerald-500 tabular-nums">
+              <ShieldCheck className="size-3.5" aria-hidden="true" />
+              {verifiedInTrackCount} / {totalTopics} Verified
             </span>
           </div>
 
@@ -469,6 +512,8 @@ export default function RoadmapExplorer({
                             matchingTopicIds.size > 0 &&
                             !matchingTopicIds.has(topic.id)
 
+                          const isVerified = verifiedTopicIds.has(topic.id)
+
                           return (
                             <button
                               key={topic.id}
@@ -492,6 +537,12 @@ export default function RoadmapExplorer({
                                 <span className={`roadmap-tag ${tagVariantClass(topic.tag)}`}>
                                   {topic.tag}
                                 </span>
+                                {isVerified && (
+                                  <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-emerald-500">
+                                    <CheckCircle2 className="size-3" aria-hidden="true" />
+                                    Verified
+                                  </span>
+                                )}
                                 <ChevronRight className="roadmap-node-chevron size-3.5" aria-hidden="true" />
                               </div>
                               <h4 className="roadmap-topic-title">{topic.title}</h4>
@@ -724,34 +775,109 @@ export default function RoadmapExplorer({
                     <p>{activeTopic.practicalTip}</p>
                   </div>
 
-                  {/* Exploratory Self-Check (No saved progress) */}
-                  <div className="roadmap-drawer-block">
-                    <div className="flex items-center justify-between gap-2">
-                      <h4 className="roadmap-drawer-heading">
-                        <HelpCircle className="size-3.5 text-path-accent" aria-hidden="true" />
-                        Exploratory Self-Check
-                      </h4>
-                      <button
-                        type="button"
-                        onClick={() => setShowSelfCheck((v) => !v)}
-                        aria-expanded={showSelfCheck}
-                        className="rounded-[4px] border border-border px-2.5 py-1 text-[11px] font-medium text-foreground transition-colors hover:border-[#FA4028] hover:text-path-accent cursor-pointer"
-                      >
-                        {showSelfCheck ? "Hide answer" : "Test your understanding"}
-                      </button>
-                    </div>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
-                      Before moving on, can you explain <strong className="text-foreground">{activeTopic.title}</strong> and verify: <em>{activeTopic.keyPoints[0]}</em>?
-                    </p>
-                    {showSelfCheck && (
-                      <div className="mt-1 rounded-[4px] border border-border bg-background/60 p-3.5 text-xs leading-6 text-foreground/90">
-                        <strong className="font-mono text-[11px] uppercase tracking-[0.12em] text-path-accent">
-                          Key Check:
-                        </strong>{" "}
-                        {activeTopic.practicalTip}
+                  {/* Interactive Micro-Challenge & Verified Mastery Gate */}
+                  {activeChallenge && (
+                    <div className="roadmap-drawer-block">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h4 className="roadmap-drawer-heading">
+                          <HelpCircle className="size-3.5 text-path-accent" aria-hidden="true" />
+                          Verified Mastery Check
+                        </h4>
+                        {isActiveTopicVerified && (
+                          <span className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-emerald-500">
+                            <ShieldCheck className="size-3.5" aria-hidden="true" />
+                            Topic Verified
+                          </span>
+                        )}
                       </div>
-                    )}
-                  </div>
+
+                      <p className="text-xs leading-relaxed text-foreground/95">
+                        <InlineCodeText text={activeChallenge.question} />
+                      </p>
+
+                      {activeChallenge.codeHint && (
+                        <pre className="overflow-x-auto border border-border bg-background/80 p-3 font-mono text-[11px] leading-5 text-foreground">
+                          <code>{activeChallenge.codeHint}</code>
+                        </pre>
+                      )}
+
+                      <div className="grid gap-2" role="radiogroup" aria-label="Micro-challenge options">
+                        {activeChallenge.options.map((opt) => {
+                          const isPicked = selectedChoice === opt.id
+                          const isCorrectOption = opt.id === activeChallenge.correctId
+                          let borderStyle = "border-border hover:border-foreground/40"
+                          if (checkSubmitted && isCorrectOption) {
+                            borderStyle = "border-emerald-500 bg-emerald-500/10"
+                          } else if (checkSubmitted && isPicked && !isCorrectOption) {
+                            borderStyle = "border-[#FA4028] bg-[#FA4028]/10"
+                          } else if (isPicked) {
+                            borderStyle = "border-[#FA4028] bg-[var(--coral-bg)]"
+                          }
+
+                          return (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => {
+                                setSelectedChoice(opt.id)
+                                setCheckSubmitted(false)
+                              }}
+                              className={`flex items-start gap-2.5 rounded-[4px] border p-3 text-left text-xs leading-5 text-foreground transition-colors cursor-pointer ${borderStyle}`}
+                            >
+                              <span className="mt-0.5 font-mono text-[11px] font-semibold uppercase text-path-accent">
+                                {opt.id}.
+                              </span>
+                              <span>
+                                <InlineCodeText text={opt.label} />
+                              </span>
+                            </button>
+                          )
+                        })}
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="default"
+                          disabled={!selectedChoice || verifying}
+                          onClick={handleCheckMicroChallenge}
+                          className="cursor-pointer"
+                        >
+                          {verifying ? "Verifying..." : "Verify Mastery"}
+                        </Button>
+                        {!user && (
+                          <button
+                            type="button"
+                            onClick={() => void signInWithGoogle()}
+                            className="text-[11px] font-medium text-path-accent underline-offset-4 hover:underline cursor-pointer"
+                          >
+                            Sign in to sync to transcript
+                          </button>
+                        )}
+                      </div>
+
+                      {checkSubmitted && (
+                        <div
+                          className={`rounded-[4px] border p-3 text-xs leading-6 ${
+                            selectedChoice === activeChallenge.correctId
+                              ? "border-emerald-500/45 bg-emerald-500/10 text-foreground"
+                              : "border-[#FA4028]/45 bg-[#FA4028]/10 text-foreground"
+                          }`}
+                          role="status"
+                        >
+                          <strong className="font-mono text-[11px] uppercase tracking-[0.1em]">
+                            {selectedChoice === activeChallenge.correctId
+                              ? user
+                                ? "Verified & Saved to Portal:"
+                                : "Verified (Session Preview):"
+                              : "Not quite — try again:"}
+                          </strong>{" "}
+                          <InlineCodeText text={activeChallenge.explanation} />
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="roadmap-drawer-block">
                     <h4 className="roadmap-drawer-heading">

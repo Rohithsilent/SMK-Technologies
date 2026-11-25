@@ -3,13 +3,18 @@ declare module "lucide-react" {
 
   export type LucideIcon = ForwardRefExoticComponent<SVGProps<SVGSVGElement> & RefAttributes<SVGSVGElement>>
 
+  export const Activity: LucideIcon
+  export const AlertCircle: LucideIcon
+  export const AlertTriangle: LucideIcon
   export const ArrowDown: LucideIcon
   export const ArrowLeft: LucideIcon
   export const ArrowRight: LucideIcon
   export const ArrowUpRight: LucideIcon
   export const Award: LucideIcon
+  export const BarChart3: LucideIcon
   export const BookOpen: LucideIcon
   export const BrainCircuit: LucideIcon
+  export const Building2: LucideIcon
   export const Calendar: LucideIcon
   export const Check: LucideIcon
   export const CheckCircle2: LucideIcon
@@ -21,17 +26,39 @@ declare module "lucide-react" {
   export const Copy: LucideIcon
   export const CornerDownRight: LucideIcon
   export const Cpu: LucideIcon
+  export const Download: LucideIcon
+  export const ExternalLink: LucideIcon
   export const Eye: LucideIcon
+  export const FileText: LucideIcon
   export const Flag: LucideIcon
+  export const FolderGit2: LucideIcon
   export const GitBranch: LucideIcon
+  export const GraduationCap: LucideIcon
   export const HelpCircle: LucideIcon
+  export const KeyRound: LucideIcon
   export const Layers: LucideIcon
+  export const Lock: LucideIcon
+  export const LogIn: LucideIcon
+  export const LogOut: LucideIcon
   export const Menu: LucideIcon
+  export const MessageSquare: LucideIcon
   export const PanelsTopLeft: LucideIcon
+  export const Play: LucideIcon
+  export const Plus: LucideIcon
+  export const Printer: LucideIcon
+  export const RefreshCw: LucideIcon
+  export const RotateCcw: LucideIcon
   export const Search: LucideIcon
+  export const Share2: LucideIcon
+  export const ShieldCheck: LucideIcon
+  export const SlidersHorizontal: LucideIcon
   export const Sparkles: LucideIcon
   export const Target: LucideIcon
   export const Terminal: LucideIcon
+  export const Timer: LucideIcon
+  export const TrendingUp: LucideIcon
+  export const Unlock: LucideIcon
+  export const Users: LucideIcon
   export const Wrench: LucideIcon
   export const X: LucideIcon
 }

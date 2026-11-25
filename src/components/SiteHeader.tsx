@@ -6,13 +6,14 @@ import ThemeToggle from "@/components/ThemeToggle"
 import { useFocusTrap } from "@/hooks/useMotion"
 
 type SiteHeaderProps = {
-  mode: "home" | "program"
+  mode: "home" | "program" | "app"
+  activePath?: string
   onNavigate?: (href: string) => void
 }
 
 const OBSERVED_SECTIONS = ["home", "programs", "approach", "campus", "contact"] as const
 
-export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
+export default function SiteHeader({ mode, activePath = "", onNavigate }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<string>("home")
@@ -67,14 +68,50 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
   }, [menuOpen])
 
   const navItems = [
-    { id: "home", label: "Home", href: `${prefix}#home`, active: mode === "home" && activeSection === "home" },
-    { id: "programs", label: "Programs", href: `${prefix}#programs`, active: mode === "program" || activeSection === "programs" },
-    { id: "approach", label: "How it works", href: `${prefix}#approach`, active: mode === "home" && activeSection === "approach" },
-    { id: "campus", label: "For colleges", href: `${prefix}#campus`, active: mode === "home" && activeSection === "campus" },
+    {
+      id: "programs",
+      label: "Programs",
+      href: `${prefix}#programs`,
+      active: mode === "program" || (mode === "home" && activeSection === "programs"),
+    },
+    {
+      id: "diagnostic",
+      label: "Diagnostic",
+      href: "/diagnostic",
+      active: activePath.startsWith("/diagnostic"),
+    },
+    {
+      id: "campus",
+      label: "For colleges",
+      href: `${prefix}#campus`,
+      active: mode === "home" && activeSection === "campus",
+    },
+    {
+      id: "portal",
+      label: "Portal",
+      href: "/portal",
+      active: activePath.startsWith("/portal") || activePath.startsWith("/mentor"),
+    },
+    {
+      id: "tpo",
+      label: "TPO",
+      href: "/tpo",
+      active: activePath.startsWith("/tpo"),
+    },
   ]
 
-  const ctaLabel = mode === "home" ? "Explore programs" : "Talk to us"
-  const ctaHref = mode === "home" ? "#programs" : "/#contact"
+  const ctaLabel =
+    activePath.startsWith("/diagnostic")
+      ? "Open Portal"
+      : activePath.startsWith("/portal")
+        ? "Timed OA"
+        : "5-Min Diagnostic"
+  const ctaHref =
+    activePath.startsWith("/diagnostic")
+      ? "/portal"
+      : activePath.startsWith("/portal")
+        ? "/portal/assessments"
+        : "/diagnostic"
 
   function handleNavClick(event: MouseEvent<HTMLAnchorElement>, href: string, closeDrawer = false) {
     if (closeDrawer) setMenuOpen(false)
@@ -96,8 +133,9 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
   return (
     <>
       <header
-        className={`site-header fixed inset-x-0 top-0 z-40 w-full ${isScrolled || mode === "program" || menuOpen ? "is-scrolled" : ""
-          }`}
+        className={`site-header fixed inset-x-0 top-0 z-40 w-full ${
+          isScrolled || mode !== "home" || menuOpen ? "is-scrolled" : ""
+        }`}
       >
         <div className="flex h-16 w-full items-center justify-between gap-4 px-5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:px-10">
           <div className="justify-self-start">
@@ -114,14 +152,16 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 aria-current={item.active ? "page" : undefined}
-                className={`relative py-1 text-sm transition-colors duration-200 hover:text-foreground ${item.active ? "font-medium text-foreground" : "text-muted-foreground"
-                  }`}
+                className={`relative whitespace-nowrap py-1 text-sm transition-colors duration-200 hover:text-foreground ${
+                  item.active ? "font-medium text-foreground" : "text-muted-foreground"
+                }`}
               >
                 {item.label}
                 <span
                   aria-hidden="true"
-                  className={`absolute inset-x-0 -bottom-0.5 h-[2px] bg-[#FA4028] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${item.active ? "scale-x-100" : "scale-x-0"
-                    }`}
+                  className={`absolute inset-x-0 -bottom-0.5 h-[2px] bg-[#FA4028] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${
+                    item.active ? "scale-x-100" : "scale-x-0"
+                  }`}
                 />
               </a>
             ))}
@@ -132,7 +172,7 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
             <Button
               asChild
               variant="default"
-              className="hidden h-9 px-4 text-xs sm:inline-flex sm:text-sm"
+              className="hidden h-9 whitespace-nowrap px-4 text-xs sm:inline-flex sm:text-sm"
             >
               <a href={ctaHref} onClick={(e) => handleNavClick(e, ctaHref)}>
                 {ctaLabel} <ArrowUpRight className="size-3.5" aria-hidden="true" />
@@ -156,8 +196,9 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
       <div
         aria-hidden="true"
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-30 bg-[#020624]/60 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`}
+        className={`fixed inset-0 z-30 bg-[#020624]/60 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
       />
 
       {/* Animated Mobile Sheet */}
@@ -166,10 +207,11 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
         id="site-mobile-navigation"
         aria-hidden={!menuOpen}
         aria-label="Mobile navigation"
-        className={`site-header-drawer fixed inset-x-0 top-16 z-40 border-b border-border px-4 py-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6 lg:hidden ${menuOpen
-          ? "translate-y-0 opacity-100 pointer-events-auto"
-          : "-translate-y-3 opacity-0 pointer-events-none"
-          }`}
+        className={`site-header-drawer fixed inset-x-0 top-16 z-40 border-b border-border px-4 py-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6 lg:hidden ${
+          menuOpen
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-3 opacity-0 pointer-events-none"
+        }`}
       >
         <div className="flex flex-col gap-1">
           {navItems.map((item) => (
@@ -178,8 +220,9 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
               href={item.href}
               tabIndex={menuOpen ? 0 : -1}
               onClick={(e) => handleNavClick(e, item.href, true)}
-              className={`flex min-h-11 items-center justify-between rounded-[4px] px-3 py-2.5 text-sm transition-colors hover:bg-foreground/[0.06] ${item.active ? "font-medium text-path-accent" : "text-foreground"
-                }`}
+              className={`flex min-h-11 items-center justify-between rounded-[4px] px-3 py-2.5 text-sm transition-colors hover:bg-foreground/[0.06] ${
+                item.active ? "font-medium text-path-accent" : "text-foreground"
+              }`}
             >
               <span>{item.label}</span>
               {item.active && (
@@ -187,6 +230,14 @@ export default function SiteHeader({ mode, onNavigate }: SiteHeaderProps) {
               )}
             </a>
           ))}
+          <a
+            href="/mentor"
+            tabIndex={menuOpen ? 0 : -1}
+            onClick={(e) => handleNavClick(e, "/mentor", true)}
+            className="flex min-h-11 items-center justify-between rounded-[4px] px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-foreground/[0.06]"
+          >
+            <span>Mentor Studio</span>
+          </a>
           <a
             href={ctaHref}
             tabIndex={menuOpen ? 0 : -1}

@@ -1,0 +1,392 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Pillar 1: Global Default-Deny Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ─── Hardened Primitive Helpers ───
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Token-only admin check (O(1), safe for allow list without get/exists)
+    function isBootstrapAdmin() {
+      return isVerifiedUser() && request.auth.token.email == 'shailajapullola@gmail.com';
+    }
+
+    function isAdmin() {
+      return isBootstrapAdmin() || (isVerifiedUser() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isValidYear(y) {
+      return y is string && y in ['2nd Year', '3rd Year', 'Final Year'];
+    }
+
+    function isValidProgramSlug(slug) {
+      return slug is string && slug in ['python', 'dsa', 'web-development', 'machine-learning'];
+    }
+
+    function isValidHandle(handle) {
+      return handle is string && handle.size() >= 2 && handle.size() <= 48 && handle.matches('^[a-z0-9\\-]+$');
+    }
+
+    function isValidHttpUrl(url) {
+      return url is string && url.size() >= 10 && url.size() <= 300 && url.matches('^https?://.*$');
+    }
+
+    // ─── Validation Blueprints (Pillar 2: Anti-Update-Gap) ───
+    function isValidCollege(data) {
+      return data.keys().hasAll(['name', 'city', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['name', 'city', 'createdBy', 'createdAt'])
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 140
+        && data.city is string && data.city.size() >= 2 && data.city.size() <= 80
+        && data.createdBy is string && data.createdBy.size() >= 1 && data.createdBy.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    function isValidCohort(data) {
+      return data.keys().hasAll(['collegeId', 'collegeName', 'name', 'targetYear', 'inviteCode', 'active', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['collegeId', 'collegeName', 'name', 'targetYear', 'inviteCode', 'active', 'createdBy', 'createdAt'])
+        && isValidId(data.collegeId)
+        && data.collegeName is string && data.collegeName.size() >= 2 && data.collegeName.size() <= 140
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 120
+        && isValidYear(data.targetYear)
+        && data.inviteCode is string && data.inviteCode.size() >= 4 && data.inviteCode.size() <= 32 && data.inviteCode.matches('^[A-Z0-9\\-]+$')
+        && data.active is bool
+        && data.createdBy is string && data.createdBy.size() >= 1 && data.createdBy.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'fullName', 'email', 'role', 'collegeId', 'cohortId', 'inviteCode', 'handle', 'btechYear', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'fullName', 'email', 'role', 'collegeId', 'cohortId', 'inviteCode', 'handle', 'btechYear', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid.size() >= 1 && data.uid.size() <= 128
+        && data.fullName is string && data.fullName.size() >= 1 && data.fullName.size() <= 100
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 160
+        && data.role is string && data.role in ['student', 'tpo', 'mentor', 'admin']
+        && data.collegeId is string && data.collegeId.size() <= 128
+        && data.cohortId is string && data.cohortId.size() <= 128
+        && data.inviteCode is string && data.inviteCode.size() <= 32
+        && isValidHandle(data.handle)
+        && isValidYear(data.btechYear)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPublicTranscript(data) {
+      return data.keys().hasAll(['userId', 'handle', 'displayName', 'btechYear', 'targetTier', 'verifiedTopicsCount', 'oaPassedCount', 'oaBestRatio', 'diagnosticOverall', 'verifiedProjectsCount', 'updatedAt'])
+        && data.keys().hasOnly(['userId', 'handle', 'displayName', 'btechYear', 'targetTier', 'verifiedTopicsCount', 'oaPassedCount', 'oaBestRatio', 'diagnosticOverall', 'verifiedProjectsCount', 'updatedAt'])
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && isValidHandle(data.handle)
+        && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100
+        && isValidYear(data.btechYear)
+        && data.targetTier is string && data.targetTier.size() >= 2 && data.targetTier.size() <= 80
+        && data.verifiedTopicsCount is number && data.verifiedTopicsCount >= 0 && data.verifiedTopicsCount <= 500
+        && data.oaPassedCount is number && data.oaPassedCount >= 0 && data.oaPassedCount <= 200
+        && data.oaBestRatio is number && data.oaBestRatio >= 0 && data.oaBestRatio <= 100
+        && data.diagnosticOverall is number && data.diagnosticOverall >= 0 && data.diagnosticOverall <= 100
+        && data.verifiedProjectsCount is number && data.verifiedProjectsCount >= 0 && data.verifiedProjectsCount <= 50
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidDiagnosticAttempt(data) {
+      return data.keys().hasAll(['userId', 'btechYear', 'targetTier', 'overallScore', 'problemSolving', 'complexityIntuition', 'implementationSpeed', 'stackReadiness', 'recommendedSlug', 'recommendedStageId', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'btechYear', 'targetTier', 'overallScore', 'problemSolving', 'complexityIntuition', 'implementationSpeed', 'stackReadiness', 'recommendedSlug', 'recommendedStageId', 'createdAt'])
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && isValidYear(data.btechYear)
+        && data.targetTier is string && data.targetTier.size() >= 2 && data.targetTier.size() <= 80
+        && data.overallScore is number && data.overallScore >= 0 && data.overallScore <= 100
+        && data.problemSolving is number && data.problemSolving >= 0 && data.problemSolving <= 100
+        && data.complexityIntuition is number && data.complexityIntuition >= 0 && data.complexityIntuition <= 100
+        && data.implementationSpeed is number && data.implementationSpeed >= 0 && data.implementationSpeed <= 100
+        && data.stackReadiness is number && data.stackReadiness >= 0 && data.stackReadiness <= 100
+        && isValidProgramSlug(data.recommendedSlug)
+        && data.recommendedStageId is string && data.recommendedStageId.size() >= 2 && data.recommendedStageId.size() <= 40
+        && data.createdAt is timestamp;
+    }
+
+    function isValidTopicMastery(data) {
+      return data.keys().hasAll(['userId', 'programSlug', 'topicId', 'topicTitle', 'status', 'verifiedAt'])
+        && data.keys().hasOnly(['userId', 'programSlug', 'topicId', 'topicTitle', 'status', 'verifiedAt'])
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && isValidProgramSlug(data.programSlug)
+        && isValidId(data.topicId)
+        && data.topicTitle is string && data.topicTitle.size() >= 2 && data.topicTitle.size() <= 140
+        && data.status is string && data.status == 'verified'
+        && data.verifiedAt is timestamp;
+    }
+
+    function isValidOaAssessment(data) {
+      return data.keys().hasAll(['title', 'tier', 'durationMinutes', 'cohortId', 'published', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['title', 'tier', 'durationMinutes', 'cohortId', 'published', 'createdBy', 'createdAt'])
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 140
+        && data.tier is string && data.tier in ['Service / Core IT', 'Product Engineering']
+        && data.durationMinutes is number && data.durationMinutes >= 10 && data.durationMinutes <= 180
+        && data.cohortId is string && data.cohortId.size() <= 128
+        && data.published is bool
+        && data.createdBy is string && data.createdBy.size() >= 1 && data.createdBy.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    function isValidOaSubmission(data) {
+      return data.keys().hasAll(['assessmentId', 'problemId', 'userId', 'language', 'sourceCode', 'passedCount', 'totalCount', 'runtimeMs', 'status', 'submittedAt'])
+        && data.keys().hasOnly(['assessmentId', 'problemId', 'userId', 'language', 'sourceCode', 'passedCount', 'totalCount', 'runtimeMs', 'status', 'submittedAt'])
+        && isValidId(data.assessmentId)
+        && isValidId(data.problemId)
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && data.language is string && data.language in ['python', 'cpp', 'java', 'javascript']
+        && data.sourceCode is string && data.sourceCode.size() >= 1 && data.sourceCode.size() <= 16000
+        && data.passedCount is number && data.passedCount >= 0 && data.passedCount <= 100
+        && data.totalCount is number && data.totalCount >= 1 && data.totalCount <= 100 && data.passedCount <= data.totalCount
+        && data.runtimeMs is number && data.runtimeMs >= 0 && data.runtimeMs <= 60000
+        && data.status is string && data.status in ['passed', 'partial', 'failed']
+        && data.submittedAt is timestamp;
+    }
+
+    function isValidProjectSubmission(data) {
+      return data.keys().hasAll(['userId', 'studentName', 'studentHandle', 'programSlug', 'title', 'repoUrl', 'liveUrl', 'status', 'rubricArchitecture', 'rubricEdgeCases', 'rubricDeployment', 'mentorNotes', 'submittedAt', 'reviewedAt'])
+        && data.keys().hasOnly(['userId', 'studentName', 'studentHandle', 'programSlug', 'title', 'repoUrl', 'liveUrl', 'status', 'rubricArchitecture', 'rubricEdgeCases', 'rubricDeployment', 'mentorNotes', 'submittedAt', 'reviewedAt'])
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && data.studentName is string && data.studentName.size() >= 1 && data.studentName.size() <= 100
+        && isValidHandle(data.studentHandle)
+        && data.programSlug is string && data.programSlug in ['web-development', 'machine-learning']
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 120
+        && isValidHttpUrl(data.repoUrl)
+        && isValidHttpUrl(data.liveUrl)
+        && data.status is string && data.status in ['pending', 'verified', 'changes_requested']
+        && data.rubricArchitecture is number && data.rubricArchitecture >= 0 && data.rubricArchitecture <= 10
+        && data.rubricEdgeCases is number && data.rubricEdgeCases >= 0 && data.rubricEdgeCases <= 10
+        && data.rubricDeployment is number && data.rubricDeployment >= 0 && data.rubricDeployment <= 10
+        && data.mentorNotes is string && data.mentorNotes.size() <= 1000
+        && data.submittedAt is timestamp
+        && (data.reviewedAt == null || data.reviewedAt is timestamp);
+    }
+
+    function isValidCampusEnquiry(data) {
+      return data.keys().hasAll(['name', 'email', 'interest', 'batchYear', 'note', 'createdAt'])
+        && data.keys().hasOnly(['name', 'email', 'interest', 'batchYear', 'note', 'createdAt'])
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 100
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 160 && data.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$')
+        && data.interest is string && data.interest.size() >= 2 && data.interest.size() <= 120
+        && data.batchYear is string && data.batchYear.size() <= 40
+        && data.note is string && data.note.size() <= 2000
+        && data.createdAt is timestamp;
+    }
+
+    // ─── Collections ───
+
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && (isOwner(adminId) || isAdmin());
+      allow list, write: if false;
+    }
+
+    match /colleges/{collegeId} {
+      allow get: if isValidId(collegeId) && isVerifiedUser();
+      allow list: if isVerifiedUser() && (isBootstrapAdmin() || resource.data.name is string);
+      allow create: if isVerifiedUser() && isValidId(collegeId) && isValidCollege(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && isAdmin();
+      allow update: if isVerifiedUser() && isValidId(collegeId) && isValidCollege(incoming())
+        && isAdmin()
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'city']);
+      allow delete: if isValidId(collegeId) && isAdmin();
+    }
+
+    match /cohorts/{cohortId} {
+      allow get: if isValidId(cohortId) && isVerifiedUser();
+      allow list: if isVerifiedUser() && (isBootstrapAdmin() || resource.data.active == true);
+      allow create: if isVerifiedUser() && isValidId(cohortId) && isValidCohort(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && isAdmin()
+        && exists(/databases/$(database)/documents/colleges/$(incoming().collegeId));
+      allow update: if isVerifiedUser() && isValidId(cohortId) && isValidCohort(incoming())
+        && isAdmin()
+        && incoming().collegeId == existing().collegeId
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'targetYear', 'inviteCode', 'active']);
+      allow delete: if isValidId(cohortId) && isAdmin();
+    }
+
+    // PII-Isolated Private User Profiles
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isBootstrapAdmin();
+      allow create: if isVerifiedUser() && isValidId(userId) && isOwner(userId)
+        && isValidUserProfile(incoming())
+        && incoming().uid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (incoming().role == 'student' || isAdmin());
+      allow update: if isVerifiedUser() && isValidId(userId) && isValidUserProfile(incoming())
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isAdmin() ||
+          (
+            isOwner(userId)
+            && incoming().role == existing().role
+            && incoming().diff(existing()).affectedKeys().hasOnly(['fullName', 'collegeId', 'cohortId', 'inviteCode', 'handle', 'btechYear', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // PII-Free Public Verified Skill Transcripts (/verify/:handle)
+    match /public_transcripts/{handle} {
+      allow get: if isValidHandle(handle);
+      allow list: if false;
+      allow create: if isVerifiedUser() && isValidHandle(handle)
+        && isValidPublicTranscript(incoming())
+        && incoming().handle == handle
+        && incoming().userId == request.auth.uid
+        && incoming().updatedAt == request.time;
+      allow update: if isVerifiedUser() && isValidHandle(handle)
+        && isValidPublicTranscript(incoming())
+        && incoming().handle == existing().handle
+        && incoming().userId == existing().userId
+        && incoming().updatedAt == request.time
+        && (
+          isAdmin() ||
+          (
+            existing().userId == request.auth.uid
+            && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'btechYear', 'targetTier', 'verifiedTopicsCount', 'oaPassedCount', 'oaBestRatio', 'diagnosticOverall', 'verifiedProjectsCount', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidHandle(handle) && isAdmin();
+    }
+
+    match /diagnostic_attempts/{attemptId} {
+      allow get: if isValidId(attemptId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrapAdmin());
+      allow create: if isVerifiedUser() && isValidId(attemptId)
+        && isValidDiagnosticAttempt(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update: if false;
+      allow delete: if isValidId(attemptId) && isAdmin();
+    }
+
+    match /topic_mastery/{masteryId} {
+      allow get: if isValidId(masteryId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrapAdmin());
+      allow create: if isVerifiedUser() && isValidId(masteryId)
+        && isValidTopicMastery(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().verifiedAt == request.time;
+      allow update: if isVerifiedUser() && isValidId(masteryId)
+        && isValidTopicMastery(incoming())
+        && existing().userId == request.auth.uid
+        && incoming().userId == existing().userId
+        && incoming().programSlug == existing().programSlug
+        && incoming().topicId == existing().topicId
+        && incoming().verifiedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['topicTitle', 'verifiedAt']);
+      allow delete: if isValidId(masteryId) && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /oa_assessments/{assessmentId} {
+      allow get: if isValidId(assessmentId) && isSignedIn() && (existing().published == true || isAdmin());
+      allow list: if isSignedIn() && (resource.data.published == true || isBootstrapAdmin());
+      allow create: if isVerifiedUser() && isValidId(assessmentId)
+        && isValidOaAssessment(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && isAdmin();
+      allow update: if isVerifiedUser() && isValidId(assessmentId)
+        && isValidOaAssessment(incoming())
+        && isAdmin()
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'tier', 'durationMinutes', 'cohortId', 'published']);
+      allow delete: if isValidId(assessmentId) && isAdmin();
+    }
+
+    match /oa_submissions/{submissionId} {
+      allow get: if isValidId(submissionId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrapAdmin());
+      allow create: if isVerifiedUser() && isValidId(submissionId)
+        && isValidOaSubmission(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().submittedAt == request.time;
+      allow update: if false;
+      allow delete: if isValidId(submissionId) && isAdmin();
+    }
+
+    match /project_submissions/{projectId} {
+      allow get: if isValidId(projectId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrapAdmin());
+      allow create: if isVerifiedUser() && isValidId(projectId)
+        && isValidProjectSubmission(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().status == 'pending'
+        && incoming().rubricArchitecture == 0
+        && incoming().rubricEdgeCases == 0
+        && incoming().rubricDeployment == 0
+        && incoming().mentorNotes == ''
+        && incoming().reviewedAt == null
+        && incoming().submittedAt == request.time;
+      allow update: if isVerifiedUser() && isValidId(projectId)
+        && isValidProjectSubmission(incoming())
+        && incoming().userId == existing().userId
+        && incoming().submittedAt == existing().submittedAt
+        && (
+          (
+            isAdmin()
+            && incoming().reviewedAt == request.time
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'rubricArchitecture', 'rubricEdgeCases', 'rubricDeployment', 'mentorNotes', 'reviewedAt'])
+          ) ||
+          (
+            existing().userId == request.auth.uid
+            && existing().status != 'verified'
+            && incoming().status == 'pending'
+            && incoming().rubricArchitecture == existing().rubricArchitecture
+            && incoming().rubricEdgeCases == existing().rubricEdgeCases
+            && incoming().rubricDeployment == existing().rubricDeployment
+            && incoming().mentorNotes == existing().mentorNotes
+            && incoming().reviewedAt == existing().reviewedAt
+            && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'repoUrl', 'liveUrl', 'status'])
+          )
+        );
+      allow delete: if isValidId(projectId) && isAdmin();
+    }
+
+    // Inbound public enquiries (create-only for visitors; read strictly admin)
+    match /campus_enquiries/{enquiryId} {
+      allow get: if isValidId(enquiryId) && isAdmin();
+      allow list: if isBootstrapAdmin();
+      allow create: if isValidId(enquiryId)
+        && isValidCampusEnquiry(incoming())
+        && incoming().createdAt == request.time;
+      allow update, delete: if isValidId(enquiryId) && isAdmin();
+    }
+  }
+}
