@@ -90,17 +90,20 @@ export default function ProgramPage({
           </div>
 
           <div className="max-w-4xl">
-            <p className="mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground/85">
+            <p className="mb-3 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/80">
               <Icon className="size-4 text-path-accent" aria-hidden="true" />
               <span>{program.code} · INTERACTIVE ROADMAP</span>
             </p>
 
-            <h1 className="font-display text-[clamp(2.45rem,6vw,4.5rem)] font-medium leading-[1.0] tracking-[-0.03em] text-foreground">
+            <h1
+              className="text-[clamp(2.35rem,6vw,4.5rem)] font-normal leading-[0.98] tracking-[-0.035em] text-foreground"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
               {program.name}{" "}
               <em className="hero-em not-italic">Roadmap.</em>
             </h1>
 
-            <p className="mt-4 max-w-2xl text-[15px] font-medium leading-relaxed text-foreground/90 sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground/85 sm:text-base">
               {program.intro}
             </p>
           </div>

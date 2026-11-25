@@ -56,17 +56,17 @@ export default function ApproachShowcase() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-path-accent">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-path-accent">
               How we teach at SMK
             </p>
-            <h2 className="max-w-lg font-display text-4xl font-medium leading-[1.02] tracking-[-0.025em] sm:text-5xl">
+            <h2 className="max-w-lg font-display text-4xl leading-[1.0] tracking-tight sm:text-5xl">
               Learn it from scratch.
               <br />
               Code it live.{" "}
               <em className="not-italic text-muted-foreground">Crack the interview.</em>
             </h2>
           </div>
-          <p className="max-w-xl text-[15px] font-medium leading-7 text-muted-foreground sm:text-base lg:justify-self-end">
+          <p className="max-w-xl text-sm leading-7 text-muted-foreground lg:justify-self-end">
             A 100% hands-on learning loop. Select each phase to preview how every SMK topic moves from visual intuition to live code optimization and interview articulation.
           </p>
         </div>
@@ -84,9 +84,8 @@ export default function ApproachShowcase() {
                   role="tab"
                   aria-selected={isSelected}
                   onClick={() => setActiveStep(step.id)}
-                  className={`editorial-step-tab group relative flex flex-col gap-2 border p-5 text-left transition-all duration-200 cursor-pointer ${
-                    isSelected ? "is-active" : ""
-                  }`}
+                  className={`editorial-step-tab group relative flex flex-col gap-2 border p-5 text-left transition-all duration-200 cursor-pointer ${isSelected ? "is-active" : ""
+                    }`}
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-path-accent">
@@ -95,16 +94,15 @@ export default function ApproachShowcase() {
                       <span>{step.badge}</span>
                     </span>
                     <StepIcon
-                      className={`size-4 transition-colors ${
-                        isSelected ? "text-path-accent" : "text-muted-foreground"
-                      }`}
+                      className={`size-4 transition-colors ${isSelected ? "text-path-accent" : "text-muted-foreground"
+                        }`}
                       aria-hidden="true"
                     />
                   </div>
-                  <h3 className="font-display text-2xl font-medium leading-tight text-foreground sm:text-[1.8rem]">
+                  <h3 className="font-display text-2xl font-normal leading-tight text-foreground sm:text-[1.75rem]">
                     {step.title}
                   </h3>
-                  <p className="text-sm font-medium leading-relaxed text-muted-foreground sm:text-[15px]">
+                  <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
                     {step.description}
                   </p>
                 </button>
@@ -149,11 +147,10 @@ export default function ApproachShowcase() {
                         key={idx}
                         type="button"
                         onClick={() => setPointerFrame(idx)}
-                        className={`rounded-[4px] border px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
-                          pointerFrame === idx
-                            ? "border-[#FA4028] bg-[#FA4028] text-white"
-                            : "border-border bg-background/60 text-muted-foreground hover:text-foreground"
-                        }`}
+                        className={`rounded-[4px] border px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors cursor-pointer ${pointerFrame === idx
+                          ? "border-[#FA4028] bg-[#FA4028] text-white"
+                          : "border-border bg-background/60 text-muted-foreground hover:text-foreground"
+                          }`}
                       >
                         Step {idx + 1}
                       </button>
@@ -169,23 +166,21 @@ export default function ApproachShowcase() {
                     return (
                       <div
                         key={val}
-                        className={`relative flex flex-col items-center justify-center border py-5 font-mono transition-all duration-300 ${
-                          isMatched
-                            ? "border-[#FA4028] bg-[#FA4028]/15 text-foreground"
-                            : isLeft || isRight
-                              ? "border-[#0A84FF] bg-[#0A84FF]/12 text-foreground"
-                              : "border-border/80 bg-background/40 text-muted-foreground"
-                        }`}
+                        className={`relative flex flex-col items-center justify-center border py-5 font-mono transition-all duration-300 ${isMatched
+                          ? "border-[#FA4028] bg-[#FA4028]/15 text-foreground"
+                          : isLeft || isRight
+                            ? "border-[#0A84FF] bg-[#0A84FF]/12 text-foreground"
+                            : "border-border/80 bg-background/40 text-muted-foreground"
+                          }`}
                       >
                         <span className="text-[11px] text-muted-foreground">idx {idx}</span>
                         <span className="mt-1 text-xl font-bold">{val}</span>
                         {(isLeft || isRight) && (
                           <span
-                            className={`mt-2 rounded-[3px] px-1.5 py-0.5 text-[10px] font-bold uppercase ${
-                              isMatched
-                                ? "bg-[#FA4028] text-white"
-                                : "bg-[#0A84FF] text-white"
-                            }`}
+                            className={`mt-2 rounded-[3px] px-1.5 py-0.5 text-[10px] font-bold uppercase ${isMatched
+                              ? "bg-[#FA4028] text-white"
+                              : "bg-[#0A84FF] text-white"
+                              }`}
                           >
                             {isLeft ? "L" : "R"}
                           </span>
@@ -217,22 +212,20 @@ export default function ApproachShowcase() {
                     <button
                       type="button"
                       onClick={() => setCodeMode("brute")}
-                      className={`rounded-[3px] px-3 py-1 font-mono text-[11px] font-medium transition-colors cursor-pointer ${
-                        codeMode === "brute"
-                          ? "bg-foreground text-background"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
+                      className={`rounded-[3px] px-3 py-1 font-mono text-[11px] font-medium transition-colors cursor-pointer ${codeMode === "brute"
+                        ? "bg-foreground text-background"
+                        : "text-muted-foreground hover:text-foreground"
+                        }`}
                     >
                       Brute · O(N²)
                     </button>
                     <button
                       type="button"
                       onClick={() => setCodeMode("optimal")}
-                      className={`rounded-[3px] px-3 py-1 font-mono text-[11px] font-medium transition-colors cursor-pointer ${
-                        codeMode === "optimal"
-                          ? "bg-[#FA4028] text-white"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
+                      className={`rounded-[3px] px-3 py-1 font-mono text-[11px] font-medium transition-colors cursor-pointer ${codeMode === "optimal"
+                        ? "bg-[#FA4028] text-white"
+                        : "text-muted-foreground hover:text-foreground"
+                        }`}
                     >
                       Optimal · O(N)
                     </button>
